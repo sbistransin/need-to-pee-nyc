@@ -4,12 +4,19 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node-dev server.js",
     "start": "node server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.3"
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "node-dev": "^7.4.3",
+    "twilio": "^3.76.1"
+  },
+  "engines": {
+    "node": "10.0.0",
+    "npm": "5.1.0"
   }
 }
