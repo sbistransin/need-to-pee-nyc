@@ -4,7 +4,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const localOptions = { usernameField: 'email' };
 
 const localLogin = new LocalStrategy(localOptions, function(email, password, done) {
-    const authenticated = email === "John" && password === "Smith";
+    const authenticated = email === "John@example.com" && password === "Smith";
 
     if (authenticated) {
       //return user data from db here

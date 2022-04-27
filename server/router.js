@@ -3,11 +3,7 @@ const Authentication = require('./controllers/authentication');
 const passport = require('passport');
 require('./services/passport');
 
-const requireSignin = passport.authenticate('local', {
-  // not sure if we need these might handle on front end
-  successRedirect: "/current-user",
-  failureRedirect: "/login",
-});
+const requireSignin = passport.authenticate('local');
 
 module.exports = function(app) {
   app.use(passport.initialize());

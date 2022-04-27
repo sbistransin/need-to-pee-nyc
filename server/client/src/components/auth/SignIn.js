@@ -1,4 +1,6 @@
+import axios from 'axios';
 import { useForm } from "react-hook-form";
+import { useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 
@@ -12,9 +14,22 @@ const SignIn = () => {
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(userSchema)
   });
+
+  let navigate = useNavigate();
+
   
   const handleFormSubmit = (data) => {
     console.log(data);
+    axios.post(
+      'http://localhost:8000/login',
+      data
+    ).then(function (response) {
+      console.log(response);
+      navigate('/');
+    })
+    .catch(function (error) {
+      console.error(error);
+    });
     // call action that will sign in user if it exists in database
   };
   
