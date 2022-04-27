@@ -12,6 +12,7 @@ exports.signout = function(req, res) {
 exports.authenticateRequest = function (req, res, next) {
   if (!req.isAuthenticated()) {
     // Denied. Redirect to login
+    // how to redirect this on the front end?
     console.log("DEEEnied");
     res.redirect("/login");
   } else {

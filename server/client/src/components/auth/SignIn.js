@@ -29,8 +29,8 @@ const SignIn = () => {
     })
     .catch(function (error) {
       console.error(error);
+      navigate('/signin')
     });
-    // call action that will sign in user if it exists in database
   };
   
   return (

@@ -9,6 +9,11 @@ const passport = require('passport');
 const app = express();
 const router = require('./router');
 
+const { pool } = require('./queries');
+
+pool.connect((err) => {
+  if (err) console.log(err);
+});
 
 app.use(cors());
 

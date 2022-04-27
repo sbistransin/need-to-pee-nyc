@@ -1,28 +1,31 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const { pool, findOneUser } = require('../queries');
 
 const localOptions = { usernameField: 'email' };
 
 const localLogin = new LocalStrategy(localOptions, function(email, password, done) {
-    const authenticated = email === "John@example.com" && password === "Smith";
 
-    if (authenticated) {
-      //return user data from db here
-      return done(null, { myUser: "user", myID: 1234 });
-    } else {
-      return done(null, false);
-    }
+    pool.query(findOneUser(email), (err, results) => {
+      if (err) {
+        return done(err);
+      }
+      
+      if (results.rows.length === 0) {
+        return done(null, false, { message: 'No user with that email found.'});
+      }
 
-  // User.findOne({ email: email }, function(err, user) {
-  //   if (err) { return done(err); }
-  //   if (!user) { return done(null, false) }
+      // check for password
+      // need to add decryption i think
+      const found = results.rows.find((u) => u.password === password);
 
-  //   if (!user.validPassword(password)) {
-  //     return done(null, false, { message: 'Incorrect password.' })
-  //   }
+      if (found) {
+        done(null, found.user_id);
+      } else {
+        done(null, false, { message: 'Incorrect password.' });
+      }
+    });
 
-  //   return done(null, user);
-  // });
 });
 
 passport.use('local', localLogin);

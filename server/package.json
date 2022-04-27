@@ -19,6 +19,8 @@
     "node-dev": "^7.4.3",
     "passport": "^0.5.2",
     "passport-local": "^1.0.0",
+    "pg": "^8.7.3",
+    "pg-connection-string": "^2.5.0",
     "twilio": "^3.76.1"
   },
   "engines": {
