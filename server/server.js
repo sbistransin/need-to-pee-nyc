@@ -2,14 +2,33 @@ const http = require('http');
 const bodyParser = require('body-parser');
 const express = require("express");
 const cors = require('cors');
+const cookieSession = require("cookie-session");
+const passport = require('passport');
+
 
 const app = express();
 const router = require('./router');
+
 
 app.use(cors());
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+// app.use(passport.initialize());
+// app.use(passport.session());
+
+app.use(
+  cookieSession({
+    name: "session",
+    keys: ["helloworld"],
+
+    // Cookie Options
+    maxAge: 24 * 60 * 60 * 1000, // 24 hours
+  })
+);
+
+
 
 router(app);
 
