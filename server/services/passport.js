@@ -5,13 +5,13 @@ const { pool, findOneUser } = require('../queries');
 const localOptions = { usernameField: 'email' };
 
 const localLogin = new LocalStrategy(localOptions, function(email, password, done) {
-
     pool.query(findOneUser(email), (err, results) => {
       if (err) {
         return done(err);
       }
       
       if (results.rows.length === 0) {
+        //return res.send({success: false, message: "No user with that email foud."})
         return done(null, false, { message: 'No user with that email found.'});
       }
 

@@ -4,7 +4,6 @@ const passport = require('passport');
 require('./services/passport');
 
 const requireSignin = passport.authenticate('local');
-
 module.exports = function(app) {
   app.use(passport.initialize());
   app.use(passport.session());

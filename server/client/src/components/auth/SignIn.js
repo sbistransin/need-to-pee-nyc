@@ -1,8 +1,9 @@
-import axios from 'axios';
 import { useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
+import { signin } from '../../actions';
 
 const userSchema = Yup.object().shape({
   email: Yup.string().email().required(),
@@ -16,22 +17,19 @@ const SignIn = () => {
   });
 
   let navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  
+  const { authenticated, authError} = useSelector(state => {
+    const test = state.auth;
+    return test;
+  });
+
   const handleFormSubmit = (data) => {
-    console.log(data);
-    axios.post(
-      'http://localhost:8000/login',
-      data
-    ).then(function (response) {
-      console.log(response);
-      navigate('/');
-    })
-    .catch(function (error) {
-      console.error(error);
-      navigate('/signin')
-    });
+    dispatch(signin(data, () => {
+        navigate('/');
+    }));
   };
+
   
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)}>
@@ -54,6 +52,7 @@ const SignIn = () => {
             required: "Required",
           })}/>
           {errors.password?.message}
+          {(authError && !authenticated) ? authError : ''}
       </div>
       <button className="btn btn-primary" type="submit">Submit</button>
     </form>

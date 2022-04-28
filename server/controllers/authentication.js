@@ -1,7 +1,7 @@
 exports.signin = function(req, res, next) {
   // User has already had their email and password auth'd
   // We just need to give them a token
-  res.send('you are signed in');
+  res.send({ user_id: req.user});
 };
 
 exports.signout = function(req, res) {
@@ -14,7 +14,6 @@ exports.authenticateRequest = function (req, res, next) {
     // Denied. Redirect to login
     // how to redirect this on the front end?
     console.log("DEEEnied");
-    res.redirect("/login");
   } else {
     next();
   }

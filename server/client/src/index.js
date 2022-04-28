@@ -8,10 +8,21 @@ import Map from './components/Map';
 import Signup from './components/auth/SignUp';
 import Signin from './components/auth/SignIn';
 
+import { Provider } from "react-redux";
+import { createStore, applyMiddleware } from "redux";
+import reducers from "./reducers";
+//import promise from "redux-promise";
+import thunk from "redux-thunk";
+
+
+//const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
+const store = createStore(reducers, {}, applyMiddleware(thunk));
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+  <Provider store={store}>
+  {/* <Provider store={createStoreWithMiddleware(reducers)}> */}
     <Router>
       <Nav />
       <App>
@@ -22,7 +33,6 @@ root.render(
         </Routes>
       </App>
     </Router>
-    
-  </React.StrictMode>
+  </Provider>
 );
 
