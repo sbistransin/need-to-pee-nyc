@@ -1,6 +1,10 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
+import { signup } from '../../actions';
+
 
 const userSchema = Yup.object().shape({
   email: Yup.string().email().required(),
@@ -12,14 +16,23 @@ const SignUp = () => {
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(userSchema)
   });
+
+  let navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { authError } = useSelector(state => {
+    return state.auth;
+  });
   
-  const handleFormSubmit = (data) => {
-    console.log(data);
-    // call action that will sign in user if it exists in database
+  const handleSignUpSubmit = (data) => {
+    dispatch(signup(data, () => {
+      debugger;
+      navigate('/');
+    }));
   };
   
   return (
-    <form onSubmit={handleSubmit(handleFormSubmit)}>
+    <form onSubmit={handleSubmit(handleSignUpSubmit)}>
       <div className='form-group'>
         <label>Email</label>
         <input
@@ -29,12 +42,13 @@ const SignUp = () => {
             required: "Required",
           })}/>
           {errors.email?.message}
+          {authError ? authError : ''}
       </div>
       <div className="form-group">
         <label>Password</label>
         <input 
           className="form-control"
-          name='password' 
+          name='password'
           {...register("password", {
             required: "Required",
           })}/>

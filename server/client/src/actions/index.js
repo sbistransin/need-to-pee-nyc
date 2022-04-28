@@ -18,6 +18,22 @@ export const signin = (formProps, callback) => dispatch => {
   });
 };
 
+export const signup = (formProps, callback) => dispatch => {
+  debugger;
+  axios.post(
+    `${ROOT_URL}/signup`,
+    formProps
+  ).then(function (response) {
+    debugger;
+    dispatch({ type: AUTH_USER, payload: response.data });
+    callback();
+  })
+  .catch(function (error) {
+    debugger;
+    dispatch({ type: AUTH_ERROR, payload: error.response.data });
+  });
+};
+
 export const signout = (callback) => dispatch => {
   axios.get(`${ROOT_URL}/logout`)
   .then(function(response) {

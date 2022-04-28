@@ -24,7 +24,7 @@ const SignIn = () => {
     return test;
   });
 
-  const handleFormSubmit = (data) => {
+  const handleSignInSubmit = (data) => {
     dispatch(signin(data, () => {
         navigate('/');
     }));
@@ -32,7 +32,7 @@ const SignIn = () => {
 
   
   return (
-    <form onSubmit={handleSubmit(handleFormSubmit)}>
+    <form onSubmit={handleSubmit(handleSignInSubmit)}>
       <div className='form-group'>
         <label>Email</label>
         <input

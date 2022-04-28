@@ -19,6 +19,7 @@ module.exports = function(app) {
 
   app.post('/login', requireSignin, Authentication.signin);
   app.get('/logout', Authentication.signout);
+  app.post('/signup', Authentication.signup);
   app.get('/current-user', Authentication.authenticateRequest, Authentication.currentUser);
 
   // thinking these routes won't be "protected" but they won't work if you aren't a user?

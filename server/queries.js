@@ -19,7 +19,20 @@ const findOneUser = (email) => {
   return query;
 };
 
+const createNewUser = (email, password) => {
+  
+  const query = {
+    text: `
+    INSERT INTO "nyc_pee_users" (email, password)
+    VALUES ($1, $2) RETURNING user_id;
+  `,
+  values: [email, password],
+  };
+
+  return query;
+};
 module.exports = {
   pool,
-  findOneUser
+  findOneUser,
+  createNewUser,
 }
