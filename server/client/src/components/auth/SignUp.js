@@ -8,7 +8,8 @@ import { signup } from '../../actions';
 
 const userSchema = Yup.object().shape({
   email: Yup.string().email().required(),
-  password: Yup.string().required()
+  password: Yup.string().required(),
+  name: Yup.string().required()
 });
 
 const SignUp = () => { 
@@ -43,6 +44,16 @@ const SignUp = () => {
           })}/>
           {errors.email?.message}
           {authError ? authError : ''}
+      </div>
+      <div className='form-group'>
+        <label>Name</label>
+        <input
+          className='form-control'
+          name='name'
+          {...register("name", {
+            required: "Required",
+          })}/>
+          {errors.name?.message}
       </div>
       <div className="form-group">
         <label>Password</label>

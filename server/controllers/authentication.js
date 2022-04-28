@@ -1,6 +1,7 @@
 const { pool, findOneUser, createNewUser } = require("../queries");
 
 exports.signin = function(req, res, next) {
+  debugger;
   // User has already had their email and password auth'd
   // We just need to give them a token
   res.send({ user_id: req.user});

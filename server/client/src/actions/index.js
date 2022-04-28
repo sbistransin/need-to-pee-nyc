@@ -1,18 +1,21 @@
 import axios from 'axios';
 import { AUTH_ERROR, AUTH_USER } from './types';
-const ROOT_URL = "http://localhost:8000";
+//const ROOT_URL = "http://localhost:8000";
 
 
 
 export const signin = (formProps, callback) => dispatch => {
+  debugger;
   axios.post(
-    `${ROOT_URL}/login`,
+    '/login',
     formProps
   ).then(function (response) {
+    debugger;
     dispatch({ type: AUTH_USER, payload: response.data });
     callback();
   })
   .catch(function (error) {
+    debugger;
     // figure out how to get more dynamic error messaging
     dispatch({ type: AUTH_ERROR, payload: 'Incorrect Username or Password' });
   });
@@ -21,7 +24,7 @@ export const signin = (formProps, callback) => dispatch => {
 export const signup = (formProps, callback) => dispatch => {
   debugger;
   axios.post(
-    `${ROOT_URL}/signup`,
+    '/signup',
     formProps
   ).then(function (response) {
     debugger;
@@ -35,7 +38,7 @@ export const signup = (formProps, callback) => dispatch => {
 };
 
 export const signout = (callback) => dispatch => {
-  axios.get(`${ROOT_URL}/logout`)
+  axios.get('/logout')
   .then(function(response) {
     dispatch({ type: AUTH_USER, payload: '' });
     callback()

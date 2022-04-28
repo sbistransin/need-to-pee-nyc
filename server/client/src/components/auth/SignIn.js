@@ -47,7 +47,8 @@ const SignIn = () => {
         <label>Password</label>
         <input 
           className="form-control"
-          name='password' 
+          name='password'
+          type='password' 
           {...register("password", {
             required: "Required",
           })}/>

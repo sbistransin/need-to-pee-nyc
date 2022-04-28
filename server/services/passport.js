@@ -5,6 +5,7 @@ const { pool, findOneUser } = require('../queries');
 const localOptions = { usernameField: 'email' };
 
 const localLogin = new LocalStrategy(localOptions, function(email, password, done) {
+  debugger;
     pool.query(findOneUser(email), (err, results) => {
       if (err) {
         return done(err);

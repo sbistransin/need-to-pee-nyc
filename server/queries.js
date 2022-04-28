@@ -2,7 +2,8 @@ const { Pool } = require('pg');
 const parser = require('pg-connection-string').parse;
 
 // const client = new Client(parser(process.env.DATABASE_URL));
-const pool = new Pool(parser('postgres://localhost:5432/peenyc'));
+// const pool = new Pool(parser('postgres://localhost:5432/peenyc'));
+const pool = new Pool(parser(process.env.DATABASE_URL));
 
 
 const findOneUser = (email) => {
