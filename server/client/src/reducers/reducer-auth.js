@@ -9,7 +9,8 @@ const authReducer = function(state = INITIAL_STATE, action) {
   switch (action.type) {
     case AUTH_USER:
       // should i clear out the error message here?
-      return { ...state, authenticated: action.payload.user_id || null
+      return { ...state, authenticated: action.payload.user_id || null,
+        authError: ''
         };
     case AUTH_ERROR:
       return { ...state, authError: action.payload };
