@@ -39,9 +39,13 @@ const receiveSMSFromUser = async (req, res) => {
 
   } else {
     const name = existingUser.name;
+    console.log(name);
     const coordinates = await getCoordinates(address);
+    console.log(coordinates);
     const results = await getRestrooms();
+    console.log(results);
     const [closestRestroom, distance] = calculateClosestRestroom(results, coordinates);
+    console.log(closestRestroom, distance);
 
     twiml.message(`Hi ${name}! Your closest restroom, ${closestRestroom.name}, at ${closestRestroom.address} is ${distance.toFixed(2)} miles away.`);
   }

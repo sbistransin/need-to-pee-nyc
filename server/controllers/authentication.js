@@ -28,7 +28,6 @@ exports.currentUser = async function (req, res) {
 };
 
 exports.signup = async function(req, res, next) {
-  debugger;
   const email = req.body.email;
   const password = req.body.password;
   const name = req.body.name;
