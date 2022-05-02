@@ -35,12 +35,11 @@ exports.signup = async function(req, res, next) {
   debugger;
   const email = req.body.email;
   const password = req.body.password;
+  const name = req.body.name;
 
-  console.log(email);
-
-  if (!email || !password) {
-    return res.status(422).send({ error: 'You must provide email and password'});
-  }
+  // if (!email || !password) {
+  //   return res.status(422).send({ error: 'You must provide email and password'});
+  // }
   debugger;
   // See if a user with the given email exists
   const existingUser = await pool.query(findOneUser(email)).catch(err => console.error(err));
@@ -51,7 +50,7 @@ exports.signup = async function(req, res, next) {
     return res.send('Email is already in use');
   }
   // good to create new user
-  pool.query(createNewUser(email, password), (err, results) => {
+  pool.query(createNewUser(email, password, name), (err, results) => {
     if (err) return err;
     debugger;
     res.send({user_id: results.rows[0].user_id})

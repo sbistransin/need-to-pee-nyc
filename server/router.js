@@ -4,6 +4,7 @@ const passport = require('passport');
 require('./services/passport');
 
 const requireSignin = passport.authenticate('local');
+
 module.exports = function(app) {
   app.use(passport.initialize());
   app.use(passport.session());
@@ -26,3 +27,13 @@ module.exports = function(app) {
   app.post('/sms', sms.receiveSMSFromUser);
   app.get('/sms', sms.sendUserSMS);
 };
+
+
+// GEO LOCATION STUFF
+// if(!navigator.geolocation) {
+//   alert('Geolocation is not supported by your browser');
+//   document.getElementById('root').classList.remove('loading');
+// } else {
+//   console.log("success")
+//   navigator.geolocation.getCurrentPosition(geoSuccess, geoError);
+// }

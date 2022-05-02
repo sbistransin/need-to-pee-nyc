@@ -1,7 +1,12 @@
+const axios = require('axios');
+const turf = require('@turf/turf');
+
+// do we need this here
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
 
+const { findOneUserByPhone, getRestrooms } = require('../queries');
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
@@ -23,14 +28,69 @@ const sendUserSMS = (req, res) => {
     res.end();
 };
 
-const receiveSMSFromUser = (req, res) => {
-  
+const receiveSMSFromUser = async (req, res) => {
+  const phone = req.body.From;
+  const address = req.body.Body;
   const twiml = new MessagingResponse();
-  
-  twiml.message('Testing...');
+
+  const existingUser = await findOneUserByPhone(phone);
+  // {user_id: 1, email: 'steph@test.com', name: 'Stephanie', password: 'awesome', phone: '+19728541675'}
+  if (!existingUser) {
+    twiml.message(`Hi! To get your nearest NYC restrooms, please sign up at "https://need-to-pee-nyc.herokuapp.com/" :)`);
+
+  } else {
+    const name = existingUser.name;
+    const coordinates = await getCoordinates(address);
+    const results = await getRestrooms();
+    const [closestRestroom, distance] = calculateClosestRestroom(results, coordinates);
+
+    twiml.message(`Hi ${name}! Your closest restroom, ${closestRestroom.name}, at ${closestRestroom.address} is ${distance.toFixed(2)} miles away.`);
+  }
 
   res.writeHead(200, {'Content-Type': 'text/xml'});
   res.end(twiml.toString());
+};
+
+const getCoordinates = async function(query) {
+  const geoURL= `https://maps.googleapis.com/maps/api/geocode/json?address=${query}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
+
+  const response = await axios.get(geoURL)
+  .catch(function (error) {
+    debugger;
+    throw error;
+  });
+
+  const coordinates = {
+    lat: response.data.results[0].geometry.location.lat,
+    long: response.data.results[0].geometry.location.lng,
+  };
+
+  return coordinates;
+};
+
+// uses Haversine formula
+const calculateClosestRestroom = function(restrooms, coordinates) {
+  
+  // need to handle no restroom recommendation
+  const from = turf.point([coordinates.long, coordinates.lat]);
+  const options = {units: 'miles'};
+  let restroomRecommendation ;
+  let minimumDistance;
+
+  for (let i = 0; i < restrooms.length; i++) {
+
+    if (restrooms[i].long && restrooms[i].lat){
+      let to = turf.point([restrooms[i].long, restrooms[i].lat]);
+      let distance = turf.distance(from, to, options);
+      
+      if (!minimumDistance || distance < minimumDistance) {
+        minimumDistance = distance;
+        restroomRecommendation = restrooms[i];
+      }
+    }
+  }
+
+  return [restroomRecommendation, minimumDistance];
 };
 
 module.exports = {
