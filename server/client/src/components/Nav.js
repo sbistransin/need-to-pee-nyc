@@ -18,7 +18,7 @@ const Nav = () => {
     if (authenticated) {
       return (
         <>
-          <li><Link to="/current-user">Manage Settings</Link></li>
+          <li><Link to="/preferences">Manage Settings</Link></li>
           <li><Link to="/" onClick={handleLogOutClick}>Sign Out</Link></li>
         </>
       );

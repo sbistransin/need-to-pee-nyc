@@ -1,4 +1,5 @@
 import { AUTH_USER, AUTH_ERROR } from '../actions/types';
+// is it bad to save user data here?
 
 const INITIAL_STATE = {
   authenticated: '',
@@ -6,7 +7,6 @@ const INITIAL_STATE = {
 };
 
 const authReducer = function(state = INITIAL_STATE, action) {
-  debugger;
   switch (action.type) {
     case AUTH_USER:
       // should i clear out the error message here?

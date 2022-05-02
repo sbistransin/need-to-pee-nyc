@@ -27,7 +27,6 @@ const SignUp = () => {
   
   const handleSignUpSubmit = (data) => {
     dispatch(signup(data, () => {
-      debugger;
       navigate('/');
     }));
   };

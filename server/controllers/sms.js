@@ -34,7 +34,6 @@ const receiveSMSFromUser = async (req, res) => {
   const twiml = new MessagingResponse();
 
   const existingUser = await findOneUserByPhone(phone);
-  // {user_id: 1, email: 'steph@test.com', name: 'Stephanie', password: 'awesome', phone: '+19728541675'}
   if (!existingUser) {
     twiml.message(`Hi! To get your nearest NYC restrooms, please sign up at "https://need-to-pee-nyc.herokuapp.com/" :)`);
 
@@ -56,7 +55,6 @@ const getCoordinates = async function(query) {
 
   const response = await axios.get(geoURL)
   .catch(function (error) {
-    debugger;
     throw error;
   });
 

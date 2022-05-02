@@ -1,7 +1,6 @@
-const { pool, findOneUser, createNewUser } = require("../queries");
+const { pool, findOneUser, createNewUser, findOneUserById } = require("../queries");
 
 exports.signin = function(req, res, next) {
-  debugger;
   // User has already had their email and password auth'd
   // We just need to give them a token
   res.send({ user_id: req.user});
@@ -22,17 +21,13 @@ exports.authenticateRequest = function (req, res, next) {
   }
 };
 
-exports.currentUser = function (req, res) {
-  // change to return email and phone number or something
-  const user = {
-    user: req.user,
-  };
-
+exports.currentUser = async function (req, res) {
+  const user = await findOneUserById(req.user);
+  // add error handling
   res.send(user);
 };
 
 exports.signup = async function(req, res, next) {
-  debugger;
   const email = req.body.email;
   const password = req.body.password;
   const name = req.body.name;
@@ -40,19 +35,15 @@ exports.signup = async function(req, res, next) {
   // if (!email || !password) {
   //   return res.status(422).send({ error: 'You must provide email and password'});
   // }
-  debugger;
   // See if a user with the given email exists
   const existingUser = await pool.query(findOneUser(email)).catch(err => console.error(err));
-  debugger;
   if (existingUser.rows.length != 0){
-    debugger;
     res.status(422);
     return res.send('Email is already in use');
   }
   // good to create new user
   pool.query(createNewUser(email, password, name), (err, results) => {
     if (err) return err;
-    debugger;
     res.send({user_id: results.rows[0].user_id})
   })
 };
