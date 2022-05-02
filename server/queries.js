@@ -52,14 +52,14 @@ const findOneUserById = async function(id) {
   return user.rows[0];
 };
 
-const createNewUser = (email, password, name) => {
+const createNewUser = (email, password, name, phone) => {
   
   const query = {
     text: `
-    INSERT INTO "nyc_pee_users" (email, password, name)
-    VALUES ($1, $2, $3) RETURNING user_id;
+    INSERT INTO "nyc_pee_users" (email, password, name, phone)
+    VALUES ($1, $2, $3, $4) RETURNING user_id;
   `,
-  values: [email, password, name],
+  values: [email, password, name, phone],
   };
 
   return query;

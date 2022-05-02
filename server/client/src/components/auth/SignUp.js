@@ -9,7 +9,8 @@ import { signup } from '../../actions';
 const userSchema = Yup.object().shape({
   email: Yup.string().email().required(),
   password: Yup.string().required(),
-  name: Yup.string().required()
+  name: Yup.string().required(),
+  phone: Yup.string().required(),
 });
 
 const SignUp = () => { 
@@ -60,6 +61,16 @@ const SignUp = () => {
           className="form-control"
           name='password'
           {...register("password", {
+            required: "Required",
+          })}/>
+          {errors.password?.message}
+      </div>
+      <div className="form-group">
+        <label>Phone</label>
+        <input 
+          className="form-control"
+          name='phone'
+          {...register("phone", {
             required: "Required",
           })}/>
           {errors.password?.message}

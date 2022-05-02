@@ -28,9 +28,11 @@ exports.currentUser = async function (req, res) {
 };
 
 exports.signup = async function(req, res, next) {
+  debugger;
   const email = req.body.email;
   const password = req.body.password;
   const name = req.body.name;
+  const phone = req.body.phone;
 
   // if (!email || !password) {
   //   return res.status(422).send({ error: 'You must provide email and password'});
@@ -42,7 +44,7 @@ exports.signup = async function(req, res, next) {
     return res.send('Email is already in use');
   }
   // good to create new user
-  pool.query(createNewUser(email, password, name), (err, results) => {
+  pool.query(createNewUser(email, password, name, phone), (err, results) => {
     if (err) return err;
     res.send({user_id: results.rows[0].user_id})
   })
