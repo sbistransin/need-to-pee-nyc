@@ -36,12 +36,6 @@ const Preferences = () => {
   const [tempBook, setTempBook] = useState(isBook);
   const [tempOther, setTempOther] = useState(isOther);
 
-  console.log(`email: ${email}`);
-  console.log(`name: ${name}`);
-  console.log(`tempName: ${tempName}`);
-  console.log(`isPublic: ${isPublic}`);
-  console.log(`tempPublic: ${tempPublic}`);
-
   useEffect(() => {
     dispatch(fetchUser());
   }, [name]);
