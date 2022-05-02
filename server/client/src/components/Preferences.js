@@ -37,6 +37,7 @@ const Preferences = () => {
   const [tempOther, setTempOther] = useState(isOther);
 
   console.log(`email: ${email}`);
+  console.log(`name: ${name}`);
   console.log(`tempName: ${tempName}`);
   console.log(`isPublic: ${isPublic}`);
   console.log(`tempPublic: ${tempPublic}`);

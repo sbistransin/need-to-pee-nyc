@@ -8,10 +8,14 @@
       "type": "pwa-node",
       "request": "launch",
       "name": "Launch Program",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
-      "program": "${workspaceFolder}/server/server.js"
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/server/server.js",
+      "env": {
+        "DATABASE_URL": "postgres://localhost:5432/peenyc",
+        "TWILIO_ACCOUNT_SID": "AC29f1fd5dc9ca13fc97c5a3f6d0f7c227",
+        "TWILIO_AUTH_TOKEN": "ece95cbb9f2caeb040ba3ba637a15a4f",
+        "GOOGLE_MAPS_API_KEY": "AIzaSyCkFE-w-0Xny2N4Ov2GIUDrWfOp5yRAczI"
+      }
     }
   ]
 }
