@@ -17,28 +17,33 @@ const Preferences = () => {
 
   const dispatch = useDispatch();
   // from db
-  const { 
-    email, 
-    name, 
-    isPublic, 
-    isCoffee, 
-    isFastFood, 
-    isHotel, 
-    isBook, 
-    isOther } = useSelector(state => state.user);
+  // const { 
+  //   email, 
+  //   name, 
+  //   isPublic, 
+  //   isCoffee, 
+  //   isFastFood, 
+  //   isHotel, 
+  //   isBook, 
+  //   isOther } = useSelector(state => state.user);
+
+    const { 
+      email, 
+      name } = useSelector(state => state.auth);
+
   
   // for form submit
   const [tempName, setTempName] = useState(name);
-  const [tempPublic, setTempPublic] = useState(isPublic);
-  const [tempCoffee, setTempCoffee] = useState(isCoffee);
-  const [tempFastFood, setTempFastFood] = useState(isFastFood);
-  const [tempHotel, setTempHotel] = useState(isHotel);
-  const [tempBook, setTempBook] = useState(isBook);
-  const [tempOther, setTempOther] = useState(isOther);
+  const [tempPublic, setTempPublic] = useState(false);
+  const [tempCoffee, setTempCoffee] = useState(false);
+  const [tempFastFood, setTempFastFood] = useState(false);
+  const [tempHotel, setTempHotel] = useState(false);
+  const [tempBook, setTempBook] = useState(false);
+  const [tempOther, setTempOther] = useState(false);
 
   useEffect(() => {
     dispatch(fetchUser());
-  }, [name]);
+  }, []);
 
   const handleUpdatePreferences = (e) => {
     e.preventDefault();

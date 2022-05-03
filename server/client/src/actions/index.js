@@ -44,6 +44,7 @@ export const signout = (callback) => dispatch => {
 };
 
 export const fetchUser = () => dispatch => {
+  debugger;
   axios.get('/current-user')
   .then(function(response) {
     dispatch({ type: USER, payload: response.data})

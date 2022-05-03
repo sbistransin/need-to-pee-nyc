@@ -2,8 +2,6 @@ import { USER } from '../actions/types';
 // is it bad to save user data here?
 
 const INITIAL_STATE = {
-  email: '',
-  name: '',
   isPublic: false,
   isCoffee: false,
   isFastFood: false,
@@ -12,12 +10,12 @@ const INITIAL_STATE = {
   isOther: false
 };
 
-const userReducer = function(state = INITIAL_STATE, action) {
+const preferenceReducer = function(state = INITIAL_STATE, action) {
+  debugger;
   switch (action.type) {
     case USER:
       // should i clear out the error message here?
-      return { ...state, email: action.payload.email || null,
-        name: action.payload.name,
+      return { ...state,
         isPublic: action.payload.is_public,
         isCoffee: action.payload.is_coffee,
         isFastFood: action.payload.is_fastfood,
@@ -30,4 +28,4 @@ const userReducer = function(state = INITIAL_STATE, action) {
   }
 }
 
-export default userReducer;
+export default preferenceReducer;

@@ -1,9 +1,15 @@
 const { pool, findOneUser, createNewUser, findOneUserById } = require("../queries");
 
-exports.signin = function(req, res, next) {
-  // User has already had their email and password auth'd
-  // We just need to give them a token
-  res.send({ user_id: req.user});
+exports.signin = async function(req, res, next) {
+  // query db and return email? 
+  const user = await findOneUserById(req.user);
+  debugger;
+
+  res.send({ 
+    user_id: req.user,
+    email: req.body.email,
+    name: user.name,
+  });
 };
 
 exports.signout = function(req, res) {
@@ -12,6 +18,7 @@ exports.signout = function(req, res) {
 };
 
 exports.authenticateRequest = function (req, res, next) {
+  debugger;
   if (!req.isAuthenticated()) {
     // Denied. Redirect to login
     // how to redirect this on the front end?
@@ -22,6 +29,7 @@ exports.authenticateRequest = function (req, res, next) {
 };
 
 exports.currentUser = async function (req, res) {
+  debugger;
   const user = await findOneUserById(req.user);
   // add error handling
   res.send(user);
