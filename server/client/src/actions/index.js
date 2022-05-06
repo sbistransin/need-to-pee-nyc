@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { AUTH_ERROR, AUTH_USER, USER } from './types';
+import { AUTH_ERROR, AUTH_USER, UPDATE_USER } from './types';
 //const ROOT_URL = "http://localhost:8000";
 
 
@@ -43,11 +43,10 @@ export const signout = (callback) => dispatch => {
   
 };
 
-export const fetchUser = () => dispatch => {
-  debugger;
+export const fetchCurrentUser = () => dispatch => {
   axios.get('/current-user')
   .then(function(response) {
-    dispatch({ type: USER, payload: response.data})
+    dispatch({ type: AUTH_USER, payload: response.data})
   })
   .catch(function (error) {
     throw error;
@@ -58,7 +57,7 @@ export const updateUser = (formData) => dispatch => {
   axios.put('/current-user',
   formData)
   .then(function(response) {
-    dispatch({ type: USER, payload: response.data})
+    //dispatch({ type: UPDATE_USER, payload: response.data})
   })
   .catch(function (error) {
     throw error;

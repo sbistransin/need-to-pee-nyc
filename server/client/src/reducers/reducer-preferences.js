@@ -1,4 +1,4 @@
-import { USER } from '../actions/types';
+import { GET_PREFERENCES } from '../actions/types';
 // is it bad to save user data here?
 
 const INITIAL_STATE = {
@@ -11,9 +11,8 @@ const INITIAL_STATE = {
 };
 
 const preferenceReducer = function(state = INITIAL_STATE, action) {
-  debugger;
   switch (action.type) {
-    case USER:
+    case GET_PREFERENCES:
       // should i clear out the error message here?
       return { ...state,
         isPublic: action.payload.is_public,

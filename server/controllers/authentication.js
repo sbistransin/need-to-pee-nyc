@@ -3,7 +3,6 @@ const { pool, findOneUser, createNewUser, findOneUserById } = require("../querie
 exports.signin = async function(req, res, next) {
   // query db and return email? 
   const user = await findOneUserById(req.user);
-  debugger;
 
   res.send({ 
     user_id: req.user,
@@ -18,7 +17,6 @@ exports.signout = function(req, res) {
 };
 
 exports.authenticateRequest = function (req, res, next) {
-  debugger;
   if (!req.isAuthenticated()) {
     // Denied. Redirect to login
     // how to redirect this on the front end?
@@ -29,7 +27,6 @@ exports.authenticateRequest = function (req, res, next) {
 };
 
 exports.currentUser = async function (req, res) {
-  debugger;
   const user = await findOneUserById(req.user);
   // add error handling
   res.send(user);

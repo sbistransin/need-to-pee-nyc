@@ -1,103 +1,172 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUser, updateUser } from "../actions";
+import { updateUser } from "../actions";
+import axios from "axios";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { useForm } from "react-hook-form";
 
-// const preferencesSchema = Yup.object().shape({
-//   name: Yup.string().required()
-// });
+const preferencesSchema = Yup.object().shape({
+  isPublic: Yup.bool(),
+  isCoffee: Yup.bool(),
+  isFastFood: Yup.bool(),
+  isHotel: Yup.bool(),
+  isBook: Yup.bool(),
+  isOther: Yup.bool(),
+});
 
 const Preferences = () => { 
-
-  // const { register, handleSubmit, formState: { errors } } = useForm({
-  //   resolver: yupResolver(preferencesSchema)
-  // });
-
-  const dispatch = useDispatch();
-  // from db
-  // const { 
-  //   email, 
-  //   name, 
-  //   isPublic, 
-  //   isCoffee, 
-  //   isFastFood, 
-  //   isHotel, 
-  //   isBook, 
-  //   isOther } = useSelector(state => state.user);
-
-    const { 
-      email, 
-      name } = useSelector(state => state.auth);
-
   
   // for form submit
-  const [tempName, setTempName] = useState(name);
-  const [tempPublic, setTempPublic] = useState(false);
-  const [tempCoffee, setTempCoffee] = useState(false);
-  const [tempFastFood, setTempFastFood] = useState(false);
-  const [tempHotel, setTempHotel] = useState(false);
-  const [tempBook, setTempBook] = useState(false);
-  const [tempOther, setTempOther] = useState(false);
+  const initialFormState = {
+    isPublic: false,
+    isCoffee: false,
+    isFastFood: false,
+    isHotel: false,
+    isBook: false,
+    isOther: false
+  }
+  
+  const [preferences, setPreferences] = useState(initialFormState);
+  
+  const { register, handleSubmit, reset, formState: { errors } } = useForm({
+    resolver: yupResolver(preferencesSchema),
+    defaultValues: {
+      isPublic: false,
+      isCoffee: false,
+      isFastFood: false,
+      isHotel: false,
+      isBook: false,
+      isOther: false
+    }
+  });
+
+  const dispatch = useDispatch();
+
+  const { 
+    email, 
+    name } = useSelector(state => state.auth);
+    
+  const fetchPreferences = () => {
+    axios.get('/current-user')
+    .then(function(response) {
+      setPreferences(prev => ({ ...prev,
+         isPublic: response.data.is_public,
+         isCoffee: response.data.is_coffee,
+         isFastFood: response.data.is_fastfood,
+         isHotel: response.data.is_hotel,
+         isBook: response.data.is_book,
+         isOther: response.data.is_other
+      }))
+    })
+    .catch(function (error) {
+      throw error;
+    })
+  };
 
   useEffect(() => {
-    dispatch(fetchUser());
+    fetchPreferences();
   }, []);
 
-  const handleUpdatePreferences = (e) => {
-    e.preventDefault();
-    //e.target.elements.name.value
-    dispatch(updateUser({
-      name: tempName,
-      isPublic: tempPublic,
-      isCoffee: tempCoffee,
-      isFastFood: tempFastFood,
-      isHotel: tempHotel,
-      isBook: tempBook,
-      isOther: tempOther
-    }));
-    
+  useEffect(() => {
+    reset(preferences);
+  }, [preferences]);
+
+  const handleUpdatePreferences = (data) => {
+    dispatch(updateUser(preferences));
   };
 
   return <>
     <div>Manage Preferences</div>
-    <form onSubmit={handleUpdatePreferences}>
+    <form onSubmit={handleSubmit(handleUpdatePreferences)}>
       <div>Email: {email ? email : ''}</div>
-      <div className='form-group'>
-        <label>Name:</label>
-        <input
-          className='form-control'
-          name='name'
-          value={tempName}
-          onChange={(e) => setTempName(e.target.value)}/>
-      </div>
+      <div>Name: {name ? name : ''}</div>
       <div>
         <label>Restroom Type Preferences:</label>
         <div>
           <div className="form-check form-check-inline ">
-            <input className="form-check-input" type="checkbox" id="inlineCheckbox1" value="public" checked={tempPublic} onChange={() => {setTempPublic(!tempPublic)}}/>
-            <label className="lead form-check-label" htmlFor="inlineCheckbox1">Public</label>
+            <input 
+              className="form-check-input" 
+              type="checkbox"
+              id="ispubliccheckbox"
+              checked={preferences.isPublic}
+              {...register("isPublic", {
+                onChange: () => setPreferences(prev => ({ ...prev,
+                isPublic: !preferences.isPublic})),
+              })}
+            />
+            {errors.isPublic?.message}
+            <label className="lead form-check-label" htmlFor="ispubliccheckbox">Public</label>
           </div>
           <div className="form-check form-check-inline ">
-            <input className="form-check-input" type="checkbox" id="inlineCheckbox1" value="coffee-shop" checked={tempCoffee} onChange={() => {setTempCoffee(!tempCoffee)}}/>
-            <label className="lead form-check-label" htmlFor="inlineCheckbox1">Coffee Shop</label>
+            <input 
+              className="form-check-input" 
+              type="checkbox"
+              id="iscoffeecheckbox"
+              checked={preferences.isCoffee}
+              {...register("isCoffee", {
+                onChange: () => setPreferences(prev => ({ ...prev,
+                isCoffee: !preferences.isCoffee})),
+              })}
+            />
+            {errors.isCoffee?.message}
+            <label className="lead form-check-label" htmlFor="iscoffeecheckbox">Coffee Shop</label>
           </div>
           <div className="form-check form-check-inline ">
-            <input className="form-check-input" type="checkbox" id="inlineCheckbox1" value="fast-food" checked={tempFastFood} onChange={() => {setTempFastFood(!tempFastFood)}}/>
-            <label className="lead form-check-label" htmlFor="inlineCheckbox1">Fast Food</label>
+            <input 
+              className="form-check-input"
+              type="checkbox" 
+              id="isfastfoodcheckbox"
+              checked={preferences.isFastFood}
+              {...register("isFastFood", {
+                onChange: () => setPreferences(prev => ({ ...prev,
+                isFastFood: !preferences.isFastFood})),
+              })}
+            />
+            {errors.isFastFood?.message}
+            <label className="lead form-check-label" htmlFor="isfastfoodcheckbox">Fast Food</label>
           </div>
           <div className="form-check form-check-inline ">
-            <input className="form-check-input" type="checkbox" id="inlineCheckbox1" value="hotel" checked={tempHotel} onChange={() => {setTempHotel(!tempHotel)}}/>
-            <label className="lead form-check-label" htmlFor="inlineCheckbox1">Hotel</label>
+            <input 
+              className="form-check-input" 
+              type="checkbox" 
+              id="ishotelcheckbox" 
+              checked={preferences.isHotel}
+              {...register("isHotel", {
+                onChange: () => setPreferences(prev => ({ ...prev,
+                isHotel: !preferences.isHotel})),
+              })}
+            />
+            {errors.isHotel?.message}
+            <label className="lead form-check-label" htmlFor="ishotelcheckbox">Hotel</label>
           </div>
           <div className="form-check form-check-inline ">
-            <input className="form-check-input" type="checkbox" id="inlineCheckbox1" value="book-store" checked={tempBook} onChange={() => {setTempBook(!tempBook)}}/>
-            <label className="lead form-check-label" htmlFor="inlineCheckbox1">Book Store</label>
+            <input 
+              className="form-check-input" 
+              type="checkbox" 
+              id="isbookcheckbox"
+              checked={preferences.isBook}
+              {...register("isBook", {
+                onChange: () => setPreferences(prev => ({ ...prev,
+                isBook: !preferences.isBook})),
+              })}
+            />
+            {errors.isBook?.message}
+            <label className="lead form-check-label" htmlFor="isbookcheckbox">Book Store</label>
           </div>
           <div className="form-check form-check-inline ">
-            <input className="form-check-input" type="checkbox" id="inlineCheckbox1" value="other" checked={tempOther} onChange={() => {setTempOther(!tempOther)}}/>
-            <label className="lead form-check-label" htmlFor="inlineCheckbox1">Other</label>
+            <input 
+              className="form-check-input" 
+              type="checkbox" 
+              id="isothercheckbox" 
+              checked={preferences.isOther}
+              {...register("isOther", {
+                onChange: () => setPreferences(prev => ({ ...prev,
+                isOther: !preferences.isOther})),
+              })}
+            />
+            {errors.isOther?.message}
+            <label className="lead form-check-label" htmlFor="isothercheckbox">Other</label>
           </div>
         </div>
       </div>

@@ -11,7 +11,6 @@ module.exports = function(app) {
   app.use(passport.session());
 
   passport.serializeUser((user, done) => {
-    console.log(user);
     done(null, user);
   });
 

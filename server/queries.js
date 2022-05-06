@@ -66,19 +66,19 @@ const createNewUser = (email, password, name, phone) => {
 };
 
 const updateUser = async (id, userData) => {
+  // update to add name later
   const query = {
     text: `
     UPDATE "nyc_pee_users"
-    SET name = $2,
-      is_public = $3,
-      is_coffee = $4,
-      is_fastfood = $5,
-      is_hotel = $6,
-      is_book = $7,
-      is_other = $8
+    SET is_public = $2,
+      is_coffee = $3,
+      is_fastfood = $4,
+      is_hotel = $5,
+      is_book = $6,
+      is_other = $7
     WHERE user_id = $1;
   `,
-  values: [id, userData.name, userData.isPublic, userData.isCoffee, userData.isFastFood, userData.isHotel, userData.isBook,
+  values: [id, userData.isPublic, userData.isCoffee, userData.isFastFood, userData.isHotel, userData.isBook,
     userData.isOther],
   };
 
