@@ -54,11 +54,12 @@ export const fetchCurrentUser = () => dispatch => {
   })
 };
 
+// update if we decide to add name to store and are able to update it
 export const updateUser = (formData) => dispatch => {
   axios.put('/current-user',
   formData)
   .then(function(response) {
-    //dispatch({ type: UPDATE_USER, payload: response.data})
+
   })
   .catch(function (error) {
     throw error;

@@ -44,8 +44,8 @@ exports.signup = async function(req, res, next) {
 
   // See if a user with the given email exists
   // const existingUserFromEMail = await pool.query(findOneUserByEmail(email)).catch(err => console.error(err));
-  const existingUserFromEMail = await findOneUserByEmail(email);
-  if (existingUserFromEMail){
+  const existingUserFromEmail = await findOneUserByEmail(email);
+  if (existingUserFromEmail){
     res.status(422);
     return res.send('Email is already in use');
   }
