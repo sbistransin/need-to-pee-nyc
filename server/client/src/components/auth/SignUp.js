@@ -58,7 +58,6 @@ const SignUp = () => {
               required: "Required",
             })}/>
             {errors.email?.message}
-            {authError ? authError : ''}
         </div>
         <div className='form-group'>
           <label>Name</label>
@@ -95,6 +94,7 @@ const SignUp = () => {
            {renderPhoneFormatError()}
         </div>
         <button className="btn btn-primary" type="submit">Submit</button>
+        {authError ? authError : ''}
       </form>
     </>
     
