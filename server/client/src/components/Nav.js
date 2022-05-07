@@ -2,8 +2,6 @@ import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { signout, fetchCurrentUser } from '../actions';
-import axios from "axios";
-
 
 const Nav = () => {
   const dispatch = useDispatch();
@@ -16,9 +14,9 @@ const Nav = () => {
     }));
   }
 
-  useEffect(() => {
-    dispatch(fetchCurrentUser());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(fetchCurrentUser());
+  // }, []);
 
   const renderLinks = () => {
     if (authenticated) {

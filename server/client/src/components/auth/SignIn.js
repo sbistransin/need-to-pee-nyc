@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
@@ -18,6 +18,7 @@ const SignIn = () => {
 
   let navigate = useNavigate();
   const dispatch = useDispatch();
+  const { state } = useLocation();
 
   const { authenticated, authError} = useSelector(state => {
     const test = state.auth;
@@ -26,7 +27,7 @@ const SignIn = () => {
 
   const handleSignInSubmit = (data) => {
     dispatch(signin(data, () => {
-        navigate('/');
+      navigate(state?.path || "/");
     }));
   };
 

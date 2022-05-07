@@ -8,6 +8,8 @@ import Map from './components/Map';
 import Signup from './components/auth/SignUp';
 import Signin from './components/auth/SignIn';
 import Preferences from './components/Preferences';
+import RequireAuth from './components/auth/RequireAuth';
+import { Navigate } from "react-router-dom";
 
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
@@ -31,7 +33,12 @@ root.render(
             <Route exact path="/" element={<Map/>} />
             <Route exact path="/signup" element={<Signup/>} />
             <Route exact path="/signin" element={<Signin/>} />
-            <Route exact path='/preferences' element={<Preferences/>} />
+            <Route exact path='/preferences' 
+              element={
+                <RequireAuth>
+                  <Preferences/>
+                </RequireAuth>
+              }/>
         </Routes>
       </App>
     </Router>

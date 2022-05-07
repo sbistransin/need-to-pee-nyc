@@ -2,14 +2,13 @@ import axios from 'axios';
 import { AUTH_ERROR, AUTH_USER, UPDATE_USER } from './types';
 //const ROOT_URL = "http://localhost:8000";
 
-
-
 export const signin = (formProps, callback) => dispatch => {
   axios.post(
     '/login',
     formProps
   ).then(function (response) {
     dispatch({ type: AUTH_USER, payload: response.data });
+    localStorage.setItem('token', response.data.user_id);
     callback();
   })
   .catch(function (error) {
@@ -24,6 +23,7 @@ export const signup = (formProps, callback) => dispatch => {
     formProps
   ).then(function (response) {
     dispatch({ type: AUTH_USER, payload: response.data });
+    localStorage.setItem('token', response.data.user_id);
     callback();
   })
   .catch(function (error) {
@@ -32,6 +32,7 @@ export const signup = (formProps, callback) => dispatch => {
 };
 
 export const signout = (callback) => dispatch => {
+  localStorage.removeItem('token');
   axios.get('/logout')
   .then(function(response) {
     dispatch({ type: AUTH_USER, payload: '' });

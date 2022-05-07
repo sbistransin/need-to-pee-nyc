@@ -42,10 +42,6 @@ const Preferences = () => {
   });
 
   const dispatch = useDispatch();
-
-  const { 
-    email, 
-    name } = useSelector(state => state.auth);
     
   const fetchPreferences = () => {
     axios.get('/current-user')
@@ -77,12 +73,9 @@ const Preferences = () => {
   };
 
   return <>
-    <div>Manage Preferences</div>
     <form onSubmit={handleSubmit(handleUpdatePreferences)}>
-      <div>Email: {email ? email : ''}</div>
-      <div>Name: {name ? name : ''}</div>
       <div>
-        <label>Restroom Type Preferences:</label>
+        <label>Manage Restroom Preferences:</label>
         <div>
           <div className="form-check form-check-inline ">
             <input 

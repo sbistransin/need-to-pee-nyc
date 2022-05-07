@@ -3,7 +3,7 @@ import { AUTH_USER, AUTH_ERROR, UPDATE_USER } from '../actions/types';
 
 // can we get current user here?
 const INITIAL_STATE = {
-  authenticated: '',
+  authenticated: localStorage.getItem('token') || '',
   email: '',
   name: '',
   authError: '',
