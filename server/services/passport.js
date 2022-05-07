@@ -1,11 +1,11 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const { pool, findOneUser } = require('../queries');
+const { pool, findOneUserByEmail } = require('../queries');
 
 const localOptions = { usernameField: 'email' };
 
 const localLogin = new LocalStrategy(localOptions, function(email, password, done) {
-    pool.query(findOneUser(email), (err, results) => {
+    pool.query(findOneUserByEmail(email), (err, results) => {
       if (err) {
         return done(err);
       }

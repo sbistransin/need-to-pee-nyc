@@ -8,7 +8,7 @@ const pool = new Pool(parser(process.env.DATABASE_URL));
 //prod connection: psql --host=ec2-34-194-73-236.compute-1.amazonaws.com --port=5432 --username=axapllxmniuzny --password --dbname=dcqboijsfm85ar
 // password: f7c993fce2e0f8783d40c1e46914bf564d1fe6007c759e6ab06a8f8d92fd8ed7
 
-const findOneUser = (email) => {
+const findOneUserByEmail = async (email) => {
   
   const query = {
     text: `
@@ -19,7 +19,9 @@ const findOneUser = (email) => {
   values: [email],
   };
 
-  return query;
+  //return query;
+  const user = await pool.query(query).catch(err => console.error(err));
+  return user.rows[0];
 };
 
 const findOneUserByPhone = async function(phone) {
@@ -100,7 +102,7 @@ const getRestrooms = async () => {
 
 module.exports = {
   pool,
-  findOneUser,
+  findOneUserByEmail,
   findOneUserByPhone,
   findOneUserById,
   createNewUser,

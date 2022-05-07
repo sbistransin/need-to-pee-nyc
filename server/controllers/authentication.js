@@ -1,4 +1,4 @@
-const { pool, findOneUser, createNewUser, findOneUserById } = require("../queries");
+const { pool, findOneUserByEmail, createNewUser, findOneUserById,findOneUserByPhone } = require("../queries");
 
 exports.signin = async function(req, res, next) {
   // query db and return email? 
@@ -38,15 +38,24 @@ exports.signup = async function(req, res, next) {
   const name = req.body.name;
   const phone = req.body.phone;
 
-  // if (!email || !password) {
-  //   return res.status(422).send({ error: 'You must provide email and password'});
-  // }
+  if (!email || !password) {
+    return res.status(422).send({ error: 'You must provide email and password'});
+  }
+
   // See if a user with the given email exists
-  const existingUser = await pool.query(findOneUser(email)).catch(err => console.error(err));
-  if (existingUser.rows.length != 0){
+  // const existingUserFromEMail = await pool.query(findOneUserByEmail(email)).catch(err => console.error(err));
+  const existingUserFromEMail = await findOneUserByEmail(email);
+  if (existingUserFromEMail){
     res.status(422);
     return res.send('Email is already in use');
   }
+
+  const existingUserFromPhone = await findOneUserByPhone(phone);
+  if (existingUserFromPhone) {
+    res.status(422);
+    return res.send('Phone number is already in use');
+  }
+
   // good to create new user
   pool.query(createNewUser(email, password, name, phone), (err, results) => {
     if (err) return err;
