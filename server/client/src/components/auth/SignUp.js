@@ -7,7 +7,7 @@ import { signup } from '../../actions';
 import PhoneInput from "react-phone-number-input/react-hook-form-input"
 
 const userSchema = Yup.object().shape({
-  email: Yup.string().email().required(),
+  email: Yup.string().email().lowercase().required(),
   password: Yup.string().required(),
   name: Yup.string().required(),
   phone: Yup.string().length(12).required()

@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 import { signin } from '../../actions';
 
 const userSchema = Yup.object().shape({
-  email: Yup.string().email().required(),
+  email: Yup.string().email().lowercase().required(),
   password: Yup.string().required()
 });
 
