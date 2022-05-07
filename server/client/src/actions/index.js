@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { AUTH_ERROR, AUTH_USER, UPDATE_USER } from './types';
+import { AUTH_ERROR, AUTH_USER } from './types';
 //const ROOT_URL = "http://localhost:8000";
 
 export const signin = (formProps, callback) => dispatch => {
