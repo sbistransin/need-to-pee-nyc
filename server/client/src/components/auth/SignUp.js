@@ -1,20 +1,16 @@
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { signup } from '../../actions';
-import 'react-phone-number-input/style.css'
-
-// "Without country select" component.
 import PhoneInput from "react-phone-number-input/react-hook-form-input"
 
 const userSchema = Yup.object().shape({
   email: Yup.string().email().required(),
   password: Yup.string().required(),
   name: Yup.string().required(),
-  phone: Yup.string().required().length(12)
+  phone: Yup.string().length(12).required()
 });
 
 const SignUp = () => { 
@@ -29,6 +25,20 @@ const SignUp = () => {
   const { authError } = useSelector(state => {
     return state.auth;
   });
+  
+  const renderPhoneFormatError = () => {
+    if (errors.phone) {
+      if (errors.phone.type === "typeError"){
+        return "US number required";
+      } else if (errors.phone.type === "length") {
+        return "Must be a 10 digit US number.";
+      } else {
+        return errors.phone.message;
+      }
+    } else {
+      return "";
+    }
+  }
   
   const handleSignUpSubmit = (data) => {
     dispatch(signup(data, () => {
@@ -75,13 +85,14 @@ const SignUp = () => {
           <PhoneInput
             className="form-control"
             name="phone"
+            placeholder="US Numbers Only"
             country="US"
             international
             withCountryCallingCode
             control={control}
             rules={{ required: true}}
            />
-          {errors.phone?.message}
+           {renderPhoneFormatError()}
         </div>
         <button className="btn btn-primary" type="submit">Submit</button>
       </form>
