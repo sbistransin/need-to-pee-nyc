@@ -1,7 +1,6 @@
-import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import { signout, fetchCurrentUser } from '../actions';
+import { signout } from '../actions';
 
 const Nav = () => {
   const dispatch = useDispatch();
@@ -13,10 +12,6 @@ const Nav = () => {
       navigate('/');
     }));
   }
-
-  // useEffect(() => {
-  //   dispatch(fetchCurrentUser());
-  // }, []);
 
   const renderLinks = () => {
     if (authenticated) {
