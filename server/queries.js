@@ -1,4 +1,5 @@
 const { Pool } = require('pg');
+const { buildPreferencesQuery } = require('./controllers/user-preferences');
 const parser = require('pg-connection-string').parse;
 const pool = new Pool(parser(process.env.DATABASE_URL));
 
@@ -98,15 +99,11 @@ const updateUser = async (id, userData) => {
   return query;
 };
 
-const getRestrooms = async () => {
-  
-  const query = {
-    text: `
-      SELECT *
-      FROM restrooms;
-  `
-  };
+const getRestrooms = async (user) => {
+  const query = buildPreferencesQuery(user);
+  debugger;
   const results = await pool.query(query).catch(err => console.error(err));
+  debugger;
   return results.rows;
 };
 

@@ -39,13 +39,15 @@ const receiveSMSFromUser = async (req, res) => {
 
   } else {
     const name = existingUser.name;
-    const coordinates = await getCoordinates(address);
-    const results = await getRestrooms();
-    const [closestRestroom, distance] = calculateClosestRestroom(results, coordinates);
-
-    twiml.message(`Hi ${name}! Your closest restroom, ${closestRestroom.name}, at ${closestRestroom.address} is ${distance.toFixed(2)} miles away.`);
-  }
-
+    const results = await getRestrooms(existingUser);
+    if (results.length === 0) {
+      twiml.message(`Sorry no restrooms returned for your preferences. Please update at "https://need-to-pee-nyc.herokuapp.com/preferences"`);
+    } else {
+      const coordinates = await getCoordinates(address);
+      const [closestRestroom, distance] = calculateClosestRestroom(results, coordinates);
+      twiml.message(`Hi ${name}! Your closest restroom, ${closestRestroom.name}, at ${closestRestroom.address} is ${distance.toFixed(2)} miles away.`);
+    }
+  };
   res.writeHead(200, {'Content-Type': 'text/xml'});
   res.end(twiml.toString());
 };
