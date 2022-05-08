@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import './index.css';
 import App from './components/App';
 import Nav from './components/Nav';
-import Map from './components/Map';
+import Home from './components/Home';
 import Signup from './components/auth/SignUp';
 import Signin from './components/auth/SignIn';
 import Preferences from './components/Preferences';
@@ -30,7 +30,7 @@ root.render(
       <Nav />
       <App>
         <Routes>
-            <Route exact path="/" element={<Map/>} />
+            <Route exact path="/" element={<Home/>} />
             <Route exact path="/signup" element={<Signup/>} />
             <Route exact path="/signin" element={<Signin/>} />
             <Route exact path='/preferences' 
