@@ -1,4 +1,4 @@
-import { NavLink, Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { signout } from '../actions';
 import styled from 'styled-components';
@@ -20,7 +20,7 @@ const Nav = () => {
         <>
           <li><Link to="/">Home</Link></li> 
           <li><Link to="/preferences">Manage Settings</Link></li>
-          <li><Link href="#" onClick={handleLogOutClick}>Sign Out</Link></li>
+          <li><LinkButton href="#" onClick={handleLogOutClick}>Sign Out</LinkButton></li>
         </>
       );
     } else {
@@ -52,6 +52,17 @@ const NavContainer = styled.div`
   align-items: center;
   background: #F2F1EA;
 `;
+
+const LinkButton = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: black;
+  font-family: 'Montserrat', sans-serif;
+  text-transform: uppercase;
+  font-weight: 300;
+  font-size: 1em;
+`
 
 
 const NavUl = styled.ul`

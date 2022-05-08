@@ -2,14 +2,14 @@ import styled from 'styled-components';
 
 const Home = () => { 
   return (
-    <Container>
+    <HomeContainer>
       <Header>NEED TO PEE NYC</Header>
-    </Container>)
+    </HomeContainer>)
 }
 
 export default Home;
 
-const Container = styled.div`
+const HomeContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -23,7 +23,7 @@ const Container = styled.div`
 const Header = styled.header`
   font-family: 'Montserrat', sans-serif; 
   padding-bottom: 1rem;
-  margin-top: -3rem;
+  margin-top: -4rem;
   font-size: 6.6rem;
   font-weight: 600;
   text-align: center;
@@ -33,10 +33,10 @@ const Header = styled.header`
   }
   @media (max-width: 1000px) {
     font-size: 4.8rem;
-    margin-top: -4rem;
+    margin-top: -5rem;
   }
   @media (max-width: 500px) {
     font-size: 4rem;
-    margin-top: -4rem;
+    margin-top: -5rem;
   }
 `;
