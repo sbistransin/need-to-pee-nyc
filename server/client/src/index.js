@@ -14,34 +14,29 @@ import { Navigate } from "react-router-dom";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import reducers from "./reducers";
-//import promise from "redux-promise";
 import thunk from "redux-thunk";
 
-
-//const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
 const store = createStore(reducers, {}, applyMiddleware(thunk));
-
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <Provider store={store}>
-  {/* <Provider store={createStoreWithMiddleware(reducers)}> */}
-    <Router>
-      <Nav />
-      <App>
-        <Routes>
-            <Route exact path="/" element={<Home/>} />
-            <Route exact path="/signup" element={<Signup/>} />
-            <Route exact path="/signin" element={<Signin/>} />
-            <Route exact path='/preferences' 
-              element={
-                <RequireAuth>
-                  <Preferences/>
-                </RequireAuth>
-              }/>
-        </Routes>
-      </App>
-    </Router>
-  </Provider>
+    <Provider store={store}>
+      <Router>
+        <Nav />
+          <App>
+          <Routes>
+              <Route exact path="/" element={<Home/>} />
+              <Route exact path="/signup" element={<Signup/>} />
+              <Route exact path="/signin" element={<Signin/>} />
+              <Route exact path='/preferences' 
+                element={
+                  <RequireAuth>
+                    <Preferences/>
+                  </RequireAuth>
+                }/>
+          </Routes>
+        </App>
+      </Router>
+    </Provider>
 );
 

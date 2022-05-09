@@ -32,13 +32,15 @@ const SignIn = () => {
       navigate(state?.path || "/");
     }));
   };
-
   
   return (
     <SignInContainer>
       <LeftSideWrapper>
         <Form onSubmit={handleSubmit(handleSignInSubmit)}>
         <div className='form-group'>
+        {errors.email ? <div>{errors.email.message}</div> : ''}
+        {errors.password ? <div>{errors.password.message}</div> : ''}
+        {(authError && !authenticated) ? <div>{authError}</div> : ''}
           <label>Email</label>
           <Input
             className='form-control'
@@ -46,7 +48,6 @@ const SignIn = () => {
             {...register("email", {
               required: "Required",
             })}/>
-            {errors.email?.message}
         </div>
         <div className="form-group">
           <label>Password</label>
@@ -57,8 +58,6 @@ const SignIn = () => {
             {...register("password", {
               required: "Required",
             })}/>
-            {errors.password?.message}
-            {(authError && !authenticated) ? authError : ''}
         </div>
         <LoginBtn className="btn btn-primary" type="submit">Enter</LoginBtn>
         </Form>

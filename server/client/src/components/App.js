@@ -11,6 +11,3 @@ const App = (props) => {
 
 export default App;
 
-const AppContainer = styled.div`
-  padding-top: 90px;
-`;
