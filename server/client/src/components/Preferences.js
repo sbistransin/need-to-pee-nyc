@@ -244,7 +244,7 @@ const Input = styled.input`
   margin: 0.5rem;
   letter-spacing: 0.3px;
   border: none;
-  border-radius: 4px;
+  borderRadius: 4px;
   width: 3rem;
   height: 1.5em;
 `;
@@ -262,7 +262,7 @@ const PrefBUtton = styled.button`
   padding: 0.5em;
   margin: 0.5rem;
   border: 1px back;
-  border-radius: 4px;
+  borderRadius: 4px;
   text-transform: uppercase;
   cursor: pointer;
   &:hover {
