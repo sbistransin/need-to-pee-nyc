@@ -11,21 +11,19 @@ const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
 
-const sendUserSMS = (req, res) => {
-  
+const sendUserSMS = async (user) => {
   const client = require('twilio')(accountSid, authToken);
   
-  client.messages
+  await client.messages
     .create({
-      body: 'hi from nyc pee',  
-      messagingServiceSid: 'MG1d6d31b1fb9fba83d482f516be369835',      
-      to: '+19728541675' 
+      body: `Welcome to Need to Pee NYC, ${user.name}!
+      \nTo get started... text a NYC address to get the closest restroom near it.
+      \nTo update your restroom preferences please visit: 
+      https://need-to-pee-nyc.herokuapp.com/preferences`,  
+      messagingServiceSid: process.env.MESSAGING_SERVICE_SID,      
+      to: user.phone, 
       })
-    .then(message => console.log(message.sid))
     .done();
-    // need to change ordering of all this
-    res.send("Success!")
-    res.end();
 };
 
 const receiveSMSFromUser = async (req, res) => {

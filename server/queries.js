@@ -69,7 +69,7 @@ const createNewUser = (email, password, name, phone) => {
   const query = {
     text: `
     INSERT INTO "nyc_pee_users" (email, password, name, phone)
-    VALUES ($1, $2, $3, $4) RETURNING user_id;
+    VALUES ($1, $2, $3, $4) RETURNING user_id, phone, name;
   `,
   values: [email, password, name, phone],
   };
