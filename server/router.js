@@ -1,6 +1,7 @@
 const Sms = require('./controllers/sms');
 const UserPreferences = require('./controllers/user-preferences');
 const Authentication = require('./controllers/authentication');
+const { getRestrooms } = require('./controllers/restrooms');
 const passport = require('passport');
 require('./services/passport');
 
@@ -28,6 +29,8 @@ module.exports = function(app) {
   // thinking these routes won't be "protected" but they won't work if you aren't a user?
   app.post('/sms', Sms.receiveSMSFromUser);
   app.get('/sms', Sms.sendUserSMS);
+
+  app.get('/restrooms', getRestrooms);
 };
 
 
