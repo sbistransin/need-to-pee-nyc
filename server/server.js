@@ -20,9 +20,6 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// app.use(passport.initialize());
-// app.use(passport.session());
-
 app.use(
   cookieSession({
     name: "session",
@@ -32,8 +29,6 @@ app.use(
     maxAge: 24 * 60 * 60 * 1000, // 24 hours
   })
 );
-
-
 
 router(app);
 

@@ -6,7 +6,7 @@ if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
 
-const { findOneUserByPhone, getRestrooms } = require('../queries');
+const { findOneUserByPhone, getUserRestrooms } = require('../queries');
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
@@ -37,11 +37,12 @@ const receiveSMSFromUser = async (req, res) => {
 
   } else {
     const name = existingUser.name;
-    const results = await getRestrooms(existingUser);
+    const results = await getUserRestrooms(existingUser);
     if (results.length === 0) {
       twiml.message(`Sorry no restrooms returned for your preferences. Please update at "https://need-to-pee-nyc.herokuapp.com/preferences"`);
     } else {
       const coordinates = await getCoordinates(address);
+      
       const [closestRestroom, distance] = calculateClosestRestroom(results, coordinates);
       twiml.message(`Hi ${name}! Your closest restroom, ${closestRestroom.name}, at ${closestRestroom.address} is ${distance.toFixed(2)} miles away.`);
     }
@@ -51,19 +52,32 @@ const receiveSMSFromUser = async (req, res) => {
 };
 
 const getCoordinates = async function(query) {
-  const geoURL= `https://maps.googleapis.com/maps/api/geocode/json?address=${query}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
+  query = query.replace("#", "");
+  const geoURL= encodeURI(`https://maps.googleapis.com/maps/api/geocode/json?address=${query}&key=${process.env.GOOGLE_MAPS_API_KEY}`);
 
-  const response = await axios.get(geoURL)
+  return response =  await axios.get(geoURL)
+  .then(response => {
+    let coordinates = {
+      lat: 'NULL',
+      long: 'NULL',
+    }
+
+    if (response.data.status === 'OK'){
+      coordinates = {
+        lat: response.data.results[0].geometry.location.lat,
+        long: response.data.results[0].geometry.location.lng,
+      }
+    }
+
+    return coordinates;
+  })
   .catch(function (error) {
-    throw error;
+    console.log(error);
+    return {
+      lat: 'NULL',
+      long: 'NULL',
+    }
   });
-
-  const coordinates = {
-    lat: response.data.results[0].geometry.location.lat,
-    long: response.data.results[0].geometry.location.lng,
-  };
-
-  return coordinates;
 };
 
 // uses Haversine formula
@@ -93,5 +107,6 @@ const calculateClosestRestroom = function(restrooms, coordinates) {
 
 module.exports = {
   sendUserSMS,
-  receiveSMSFromUser
+  receiveSMSFromUser,
+  getCoordinates
 };

@@ -1,9 +1,8 @@
+const { add } = require('cheerio/lib/api/traversing');
 const { Pool } = require('pg');
 const parser = require('pg-connection-string').parse;
 const pool = new Pool(parser(process.env.DATABASE_URL));
-
-//prod connection: psql --host=ec2-34-194-73-236.compute-1.amazonaws.com --port=5432 --username=axapllxmniuzny --password --dbname=dcqboijsfm85ar
-// password: f7c993fce2e0f8783d40c1e46914bf564d1fe6007c759e6ab06a8f8d92fd8ed7
+const format = require('pg-format');
 
 const findOneUserByEmailPassport = (email) => {
   
@@ -98,8 +97,14 @@ const updateUser = async (id, userData) => {
   return updatedUser;
 };
 
-const getRestrooms = async (user) => {
+const getUserRestrooms = async (user) => {
   const query = buildPreferencesQuery(user);
+  const results = await pool.query(query).catch(err => console.error(err));
+  return results.rows;
+};
+
+const getAllRestrooms = async () => {
+  const query = 'SELECT * FROM restrooms;'
   const results = await pool.query(query).catch(err => console.error(err));
   return results.rows;
 };
@@ -108,74 +113,49 @@ const buildPreferencesQuery = (user) => {
   const anyPreferences = getIfAnyPreferences(user);
   if (!anyPreferences) {
     return {
-      text: "SELECT * FROM restrooms;",
+      text: "SELECT * FROM restrooms WHERE exclude = FALSE;",
     };
   }
 
-  let preferencesQuery = "SELECT * FROM restrooms WHERE ";
+  let preferencesQuery = "SELECT * FROM restrooms WHERE exclude = FALSE ";
   let preferencesArray = [];
   let nextParamNum = 1;
 
   if (!user.is_public) {
-    if (nextParamNum != 1) {
-      preferencesQuery += " AND ";
-    };
-    
-    preferencesQuery += "category != $" + nextParamNum;
+    preferencesQuery += "AND category != $" + nextParamNum;
     nextParamNum += 1;
     preferencesArray.push("Public");
   }
 
   if (!user.is_coffee) {
-    if (nextParamNum != 1) {
-      preferencesQuery += " AND ";
-    }; 
-
-    preferencesQuery += "category != $" + nextParamNum;
+    preferencesQuery += "AND category != $" + nextParamNum;
     nextParamNum += 1;
     preferencesArray.push("Coffee Shop");
   }
  
   if (!user.is_fastfood) {
-    if (nextParamNum != 1) {
-      preferencesQuery += " AND ";
-    };
-
-    preferencesQuery += "category != $" + nextParamNum;
+    preferencesQuery += "AND category != $" + nextParamNum;
     nextParamNum += 1;
     preferencesArray.push("Fast Food");
   }
 
   if (!user.is_hotel) {
-    if (nextParamNum != 1) {
-      preferencesQuery += " AND ";
-    };
-
-    preferencesQuery += "category != $" + nextParamNum;
+    preferencesQuery += "AND category != $" + nextParamNum;
     nextParamNum += 1;
     preferencesArray.push("Hotel");
   }
 
   if (!user.is_book) {
-    if (nextParamNum != 1) {
-      preferencesQuery += " AND ";
-    };
-
-    preferencesQuery += "category != $" + nextParamNum;
+    preferencesQuery += "AND category != $" + nextParamNum;
     nextParamNum += 1;
     preferencesArray.push("Book Store");
   }
 
   if (!user.is_other) {
-    if (nextParamNum != 1) {
-      preferencesQuery += " AND ";
-    };
-
-    preferencesQuery += "category != $" + nextParamNum;
+    preferencesQuery += "AND category != $" + nextParamNum;
     nextParamNum += 1;
     preferencesArray.push("Other");
   }
-
   preferencesQuery += ";";
   return {
     text: preferencesQuery,
@@ -187,6 +167,59 @@ const getIfAnyPreferences = (user) => {
   return !user.is_public || !user.is_coffee || !user.is_fastfood || !user.is_hotel || !user.is_book || !user.is_other;
 };
 
+const insertRestrooms = async (restrooms) => {
+  const valuesArray = buildArrayForRestroomInsert(restrooms);
+  
+  const sql = format(`
+    INSERT INTO restrooms (restroom_id, name, category, address, hours)
+    VALUES %L 
+    ON CONFLICT ON CONSTRAINT restrooms_id_key
+    DO
+      UPDATE SET
+		    (name, category, address, hours) = (EXCLUDED.name, EXCLUDED.category, EXCLUDED.address, EXCLUDED.hours) 
+    RETURNING restroom_id, lat, long, address, exclude;
+    `, valuesArray);
+  
+  const results = await pool.query(sql).catch(err => {
+    console.error(err)});
+  return results.rows;
+};
+
+const buildArrayForRestroomInsert = (restrooms) => {
+  const valuesArray = restrooms.map((r, i) => {
+    const regex = /'/g;
+    const name = r.name.replace(regex, '');
+    const category = r.category.replace(regex, '');
+    const address = r.address.replace(regex, '');
+    const hours = r.hours.replace(regex, '');
+    return [r.id, name, category, address, hours];
+    } 
+  )
+  return valuesArray;
+}
+
+const insertCoordinates = async (restrooms) => {
+  const valuesArray = buildCoordinatesArray(restrooms);
+
+  const sql = format(`
+    UPDATE restrooms
+    SET lat = temp.lat, long = temp.long
+    FROM (
+      VALUES ${valuesArray}
+    ) AS temp (id, lat, long)
+    WHERE restrooms.restroom_id = temp.id
+    RETURNING restroom_id, temp.lat, temp.long;
+    `);
+
+  const results = await pool.query(sql).catch(err => {
+    console.error(err)});
+  return results.rows;
+};
+
+const buildCoordinatesArray = (restrooms) => {
+  return `${restrooms.map(r => `(${r.restroom_id}::varchar, ${r.lat}::real, ${r.long}::real)`)}`};
+
+
 module.exports = {
   pool,
   findOneUserByEmailPassport,
@@ -194,6 +227,9 @@ module.exports = {
   findOneUserByPhone,
   findOneUserById,
   createNewUser,
-  getRestrooms,
+  getUserRestrooms,
+  getAllRestrooms,
   updateUser,
+  insertRestrooms,
+  insertCoordinates,
 }

@@ -1,7 +1,7 @@
 const Sms = require('./controllers/sms');
 const UserPreferences = require('./controllers/user-preferences');
 const Authentication = require('./controllers/authentication');
-const { getRestrooms } = require('./controllers/restrooms');
+const { populateRestrooms } = require('./controllers/restrooms');
 const passport = require('passport');
 require('./services/passport');
 
@@ -30,15 +30,6 @@ module.exports = function(app) {
   app.post('/sms', Sms.receiveSMSFromUser);
   app.get('/sms', Sms.sendUserSMS);
 
-  app.get('/restrooms', getRestrooms);
+  //app.get('/restrooms', getRestrooms);
+  app.get('/database/populate-restroom-table', populateRestrooms);
 };
-
-
-// GEO LOCATION STUFF
-// if(!navigator.geolocation) {
-//   alert('Geolocation is not supported by your browser');
-//   document.getElementById('root').classList.remove('loading');
-// } else {
-//   console.log("success")
-//   navigator.geolocation.getCurrentPosition(geoSuccess, geoError);
-// }
