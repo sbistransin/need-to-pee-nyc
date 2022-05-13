@@ -180,6 +180,7 @@ const insertRestrooms = async (restrooms) => {
     RETURNING restroom_id, lat, long, address, exclude;
     `, valuesArray);
   
+  console.log(sql);
   const results = await pool.query(sql).catch(err => {
     console.error(err)});
   return results.rows;
@@ -210,7 +211,7 @@ const insertCoordinates = async (restrooms) => {
     WHERE restrooms.restroom_id = temp.id
     RETURNING restroom_id, temp.lat, temp.long;
     `);
-
+  console.log(sql);
   const results = await pool.query(sql).catch(err => {
     console.error(err)});
   return results.rows;
