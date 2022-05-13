@@ -173,7 +173,7 @@ const insertRestrooms = async (restrooms) => {
   const sql = format(`
     INSERT INTO restrooms (restroom_id, name, category, address, hours)
     VALUES %L 
-    ON CONFLICT ON CONSTRAINT restrooms_id_key
+    ON CONFLICT ON CONSTRAINT restrooms_pkey
     DO
       UPDATE SET
 		    (name, category, address, hours) = (EXCLUDED.name, EXCLUDED.category, EXCLUDED.address, EXCLUDED.hours) 
