@@ -42,9 +42,12 @@ const receiveSMSFromUser = async (req, res) => {
       twiml.message(`Sorry no restrooms returned for your preferences. Please update at "https://need-to-pee-nyc.herokuapp.com/preferences"`);
     } else {
       const coordinates = await getCoordinates(address);
-      
-      const [closestRestroom, distance] = calculateClosestRestroom(results, coordinates);
-      twiml.message(`Hi ${name}! Your closest restroom, ${closestRestroom.name}, at ${closestRestroom.address} is ${distance.toFixed(2)} miles away.`);
+    
+      const closestRestrooms = calculateClosestRestroom(results, coordinates);
+
+      twiml.message(`Hi ${name}! Your closest restroom options are: 
+      ${closestRestrooms.map((restroom, index) => {
+        return `\n${index + 1}) ${restroom.name} at ${restroom.address} is ${restroom.distance} miles away\n`}).join('')}`);
     }
   };
   res.writeHead(200, {'Content-Type': 'text/xml'});
@@ -86,8 +89,7 @@ const calculateClosestRestroom = function(restrooms, coordinates) {
   // need to handle no restroom recommendation
   const from = turf.point([coordinates.long, coordinates.lat]);
   const options = {units: 'miles'};
-  let restroomRecommendation ;
-  let minimumDistance;
+  let restroomsWithDist = [];
 
   for (let i = 0; i < restrooms.length; i++) {
 
@@ -95,14 +97,17 @@ const calculateClosestRestroom = function(restrooms, coordinates) {
       let to = turf.point([restrooms[i].long, restrooms[i].lat]);
       let distance = turf.distance(from, to, options);
       
-      if (!minimumDistance || distance < minimumDistance) {
-        minimumDistance = distance;
-        restroomRecommendation = restrooms[i];
+      const restroom = {
+        name: restrooms[i].name,
+        distance: distance.toFixed(2),
+        address: restrooms[i].address,
       }
+
+      restroomsWithDist.push(restroom);
     }
   }
-
-  return [restroomRecommendation, minimumDistance];
+  const sortedRestrooms = restroomsWithDist.sort((a, b) => (a.distance > b.distance ? 1 : -1));
+  return sortedRestrooms.slice(0,3);
 };
 
 module.exports = {
