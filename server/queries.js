@@ -1,8 +1,8 @@
-const { add } = require('cheerio/lib/api/traversing');
 const { Pool } = require('pg');
 const parser = require('pg-connection-string').parse;
 const pool = new Pool(parser(process.env.DATABASE_URL));
 const format = require('pg-format');
+
 
 const findOneUserByEmailPassport = (email) => {
   
@@ -63,14 +63,16 @@ const findOneUserById = async function(id) {
   return user.rows[0];
 };
 
-const createNewUser = (email, password, name, phone) => {
+const createNewUser = (email, hash, name, phone) => {
+  
+  debugger;
   
   const query = {
     text: `
     INSERT INTO "nyc_pee_users" (email, password, name, phone)
     VALUES ($1, $2, $3, $4) RETURNING user_id, phone, name;
   `,
-  values: [email, password, name, phone],
+  values: [email, hash, name, phone],
   };
 
   return query;
