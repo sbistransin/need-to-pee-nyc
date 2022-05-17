@@ -209,7 +209,6 @@ export const RightMobileTitle = styled.div`
     display: flex;
     font-weight: 600;
     font-size: 3rem;
-    margin-top: -100px;
     width: 50%
   }
 `

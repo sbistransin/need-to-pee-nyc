@@ -6,7 +6,6 @@ const App = (props) => {
     <>
     {props.children}
     </>
-      
   )
 }
 

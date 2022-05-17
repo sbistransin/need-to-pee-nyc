@@ -130,7 +130,6 @@ const SignUpContainer = styled.div`
   background: #F2F1EA;
   width: 100vw;
   height: 100vh;
-  font-size: 
 `;
 
 const LeftSideWrapper = styled.div`
