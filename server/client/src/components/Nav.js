@@ -14,8 +14,6 @@ const Nav = () => {
     dispatch(signout(() => {
       navigate('/');
     }));
-
-    setExtendNavbar((curr) => !curr);
   }
 
   const renderLinks = () => {
@@ -23,14 +21,12 @@ const Nav = () => {
       return (
         <>
           <li>
-            <Link to="/"
-              onClick={() => setExtendNavbar((curr) => !curr)}>
+            <Link to="/">
               Home
             </Link>
           </li> 
           <li>
-            <Link to="/preferences"
-              onClick={() => setExtendNavbar((curr) => !curr)}>
+            <Link to="/preferences">
               Manage Settings
             </Link>
           </li>
@@ -48,20 +44,17 @@ const Nav = () => {
       return (
               <>
                 <li>
-                  <Link to="/"
-                    onClick={() => setExtendNavbar((curr) => !curr)}>
+                  <Link to="/">
                     Home
                   </Link>
                 </li> 
                 <li>
-                  <Link to="/signup"
-                    onClick={() => setExtendNavbar((curr) => !curr)}>
+                  <Link to="/signup">
                     Sign Up
                   </Link>
                 </li>
                 <li>
-                  <Link to="/signin"
-                  onClick={() => setExtendNavbar((curr) => !curr)}>
+                  <Link to="/signin">
                   Sign In
                   </Link>
                 </li>
@@ -72,8 +65,8 @@ const Nav = () => {
   }
 
   return (
-    <NavBar>
-      <NavContainer extendNavbar={extendNavbar}>
+    <NavBar extendNavbar={extendNavbar}>
+      <NavContainer>
         <OpenLinksButton 
           onClick={() => setExtendNavbar((curr) => !curr)}
         >
@@ -99,13 +92,13 @@ const NavBar = styled.div`
   background: #F2F1EA;
   position: fixed;
   width: 100%; 
+  height: ${(props) => (props.extendNavbar ? "100vh" : "70px;")}
 `;
 
 const NavContainer = styled.div`
   width: 100%;
   position: flex;
   flex-direction: row;
-  height: ${(props) => (props.extendNavbar ? "100vh" : "70px;")}
   @media (min-width: 750px) {
     height: 70px;
   }
@@ -144,9 +137,6 @@ const ExtendedNavUl = styled.ul`
   display: flex;
   flex-direction: column;
   list-style: none;
-  li:first-child {
-    float: left;
-  }
   li {
     margin-left: 0.8em;
     padding: 0.5em;
@@ -169,6 +159,7 @@ const LinkButton = styled.button`
   text-transform: uppercase;
   font-weight: 300;
   font-size: ${(props) => (props.extendNavbar ? "2em;" : "1em;")}
+  padding: 0px;
 `;
 
 const NavbarExtendedContainer = styled.div`
