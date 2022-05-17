@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { signup } from '../../actions';
 import PhoneInput from "react-phone-number-input/react-hook-form-input";
 import styled from "styled-components";
+import { Title, RightMobileTitle } from "./SignIn";
 
 
 const userSchema = Yup.object().shape({
@@ -51,6 +52,7 @@ const SignUp = () => {
   return (
     <SignUpContainer>
       <LeftSideWrapper>
+        <RightMobileTitle>Ready to Pee?</RightMobileTitle>
         <Form onSubmit={handleSubmit(handleSignUpSubmit)}>
           {authError ? <div>{authError} </div> : ''}
           <div className='form-group'>
@@ -110,7 +112,7 @@ const SignUp = () => {
         </Form>
       </LeftSideWrapper>
       <RightSideWrapper>
-        Ready to Pee?
+        <Title>Ready to Pee?</Title>
       </RightSideWrapper>
     </SignUpContainer>
     

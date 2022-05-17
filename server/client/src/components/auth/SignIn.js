@@ -36,6 +36,7 @@ const SignIn = () => {
   return (
     <SignInContainer>
       <LeftSideWrapper>
+        <RightMobileTitle>Welcome Back</RightMobileTitle>
         <Form onSubmit={handleSubmit(handleSignInSubmit)}>
         <div className='form-group'>
         {errors.email ? <div>{errors.email.message}</div> : ''}
@@ -63,7 +64,7 @@ const SignIn = () => {
         </Form>
       </LeftSideWrapper>
       <RightSideWrapper>
-        Welcome Back
+        <Title>Welome Back</Title>
       </RightSideWrapper>
       
     </SignInContainer>
@@ -112,7 +113,7 @@ const RightSideWrapper = styled.div`
   align-items: flex-start;
   box-sizing: border-box;
   margin-bottom: 3rem;
-  @media (max-width: 1000px) {
+  @media (max-width: 980px) {
     width: 0%;
   }
 `;
@@ -155,3 +156,61 @@ const LoginBtn = styled.button`
     color: white;
   }
 `;
+
+export const Title = styled.div`
+  height: calc(100% - 100px);
+  box-sizing: border-box;
+  justify-self: flex-start;
+  padding-right: 5rem;
+  margin-top: -150px;
+  max-width: 90%;
+  transition: 0.4s;
+
+  @media (max-width: 1400px) {
+    padding: 2rem;
+  }
+
+  @media (max-width: 1400px) {
+    padding: 2rem;
+  }
+
+  @media (max-width: 980px) {
+    display: none;
+  }
+`
+
+export const RightMobileTitle = styled.div`
+  transition: 0.4s;
+  width: 50%;
+  display: flex;
+  flex-direciton: column;
+  align-items: center;
+  box-sizing: border-box;
+  margin-bottom: 3rem;
+
+  @media (max-width: 1600px) {
+    display: none;
+  }
+
+  @media (max-width: 1200px) {
+    display: none;
+  }
+
+  @media (max-width: 980px) {
+    display: flex;
+    font-weight: 600;
+    font-size: 6rem;
+  }
+
+  @media (max-width: 750px) {
+    display: flex;
+    font-weight: 600;
+    font-size: 5rem;
+  }
+
+  @media (max-width: 600px) {
+    display: flex;
+    font-weight: 600;
+    font-size: 3rem;
+  }
+`
