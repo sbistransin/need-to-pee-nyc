@@ -48,6 +48,7 @@ export default Nav;
 
 const NavContainer = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   background: #F2F1EA;

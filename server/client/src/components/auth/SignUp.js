@@ -25,18 +25,16 @@ const SignUp = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { authError } = useSelector(state => {
-    return state.auth;
-  });
+  const { signUpAuthError } = useSelector(state => state.auth);
   
   const renderPhoneFormatError = () => {
     if (errors.phone) {
       if (errors.phone.type === "typeError"){
-        return "US number required";
+        return <ErrorMsg>US number required</ErrorMsg>;
       } else if (errors.phone.type === "length") {
-        return "Must be a 10 digit US number.";
+        return <ErrorMsg>Must be a 10 digit US number.</ErrorMsg>;
       } else {
-        return errors.phone.message;
+        return <ErrorMsg>errors.phone.message</ErrorMsg>;
       }
     } else {
       return "";
@@ -54,7 +52,7 @@ const SignUp = () => {
       <LeftSideWrapper>
         <RightMobileTitle>Ready to Pee?</RightMobileTitle>
         <Form onSubmit={handleSubmit(handleSignUpSubmit)}>
-          {authError ? <div>{authError} </div> : ''}
+          {signUpAuthError ? <ErrorMsg>{signUpAuthError} </ErrorMsg> : ''}
           <div className='form-group'>
             <label>Email</label>
             <Input
@@ -63,7 +61,7 @@ const SignUp = () => {
               {...register("email", {
                 required: "Required",
               })}/>
-              {errors.email?.message}
+              {errors.email ? <ErrorMsg>{errors.email.message}</ErrorMsg> : ''}
           </div>
           <div className='form-group'>
             <label>Name</label>
@@ -73,17 +71,18 @@ const SignUp = () => {
               {...register("name", {
                 required: "Required",
               })}/>
-              {errors.name?.message}
+              {errors.name ? <ErrorMsg>{errors.name.message}</ErrorMsg> : ''}
           </div>
           <div className="form-group">
             <label>Password</label>
             <Input 
               className="form-control"
               name='password'
+              type='password' 
               {...register("password", {
                 required: "Required",
               })}/>
-              {errors.password?.message}
+              {errors.password ? <ErrorMsg>{errors.password.message}</ErrorMsg> : ''}
           </div>
           <div className="form-group">
             <label>Phone</label>
@@ -131,6 +130,7 @@ const SignUpContainer = styled.div`
   background: #F2F1EA;
   width: 100vw;
   height: 100vh;
+  font-size: 
 `;
 
 const LeftSideWrapper = styled.div`
@@ -204,3 +204,14 @@ const SignUpBtn = styled.button`
     color: white;
   }
 `;
+
+export const ErrorMsg = styled.p`
+  color: red;
+  text-align: center;
+  align-items: flex-end;
+  display: flex;
+  flex-direction: column;
+  padding: 0px;
+  margin: 0px;
+`;
+

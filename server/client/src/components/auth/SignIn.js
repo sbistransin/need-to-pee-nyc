@@ -5,6 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { signin } from '../../actions';
 import styled from "styled-components";
+import { ErrorMsg } from "./SignUp";
 
 
 const userSchema = Yup.object().shape({
@@ -22,10 +23,7 @@ const SignIn = () => {
   const dispatch = useDispatch();
   const { state } = useLocation();
 
-  const { authenticated, authError} = useSelector(state => {
-    const test = state.auth;
-    return test;
-  });
+  const { authenticated, signInAuthError} = useSelector(state => state.auth);
 
   const handleSignInSubmit = (data) => {
     dispatch(signin(data, () => {
@@ -38,29 +36,29 @@ const SignIn = () => {
       <LeftSideWrapper>
         <RightMobileTitle>Welcome Back</RightMobileTitle>
         <Form onSubmit={handleSubmit(handleSignInSubmit)}>
-        <div className='form-group'>
-        {errors.email ? <div>{errors.email.message}</div> : ''}
-        {errors.password ? <div>{errors.password.message}</div> : ''}
-        {(authError && !authenticated) ? <div>{authError}</div> : ''}
-          <label>Email</label>
-          <Input
-            className='form-control'
-            name='email'
-            {...register("email", {
-              required: "Required",
-            })}/>
-        </div>
-        <div className="form-group">
-          <label>Password</label>
-          <Input 
-            className="form-control"
-            name='password'
-            type='password' 
-            {...register("password", {
-              required: "Required",
-            })}/>
-        </div>
-        <LoginBtn className="btn btn-primary" type="submit">Enter</LoginBtn>
+          <div className='form-group'>
+          {(signInAuthError && !authenticated) ? <ErrorMsg>{signInAuthError}</ErrorMsg> : ''}
+            <label>Email</label>
+            <Input
+              className='form-control'
+              name='email'
+              {...register("email", {
+                required: "Required",
+              })}/>
+            {errors.email ? <ErrorMsg>{errors.email.message}</ErrorMsg> : ''}
+          </div>
+          <div className="form-group">
+            <label>Password</label>
+            <Input 
+              className="form-control"
+              name='password'
+              type='password' 
+              {...register("password", {
+                required: "Required",
+              })}/>
+              {errors.password ? <ErrorMsg>{errors.password.message}</ErrorMsg> : ''}
+          </div>
+          <LoginBtn className="btn btn-primary" type="submit">Enter</LoginBtn>
         </Form>
       </LeftSideWrapper>
       <RightSideWrapper>
@@ -128,6 +126,7 @@ const Input = styled.input`
   border-radius: 4px;
   width: 14rem;
   height: 1.5em;
+  font-size: 1rem;
 `;
 
 const LoginBtn = styled.button`

@@ -1,4 +1,5 @@
-import styled from "styled-components";
+import '../normalize.css';
+
 const App = (props) => {
 
   return (

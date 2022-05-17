@@ -1,6 +1,5 @@
 import axios from 'axios';
-import { AUTH_ERROR, AUTH_USER } from './types';
-//const ROOT_URL = "http://localhost:8000";
+import { AUTH_USER, SIGN_IN_AUTH_ERROR, SIGN_UP_AUTH_ERROR } from './types';
 
 export const signin = (formProps, callback) => dispatch => {
   axios.post(
@@ -13,7 +12,7 @@ export const signin = (formProps, callback) => dispatch => {
   })
   .catch(function (error) {
     // figure out how to get more dynamic error messaging
-    dispatch({ type: AUTH_ERROR, payload: 'Incorrect Username or Password' });
+    dispatch({ type: SIGN_IN_AUTH_ERROR, payload: 'Incorrect Username or Password' });
   });
 };
 
@@ -27,7 +26,7 @@ export const signup = (formProps, callback) => dispatch => {
     callback();
   })
   .catch(function (error) {
-    dispatch({ type: AUTH_ERROR, payload: error.response.data });
+    dispatch({ type: SIGN_UP_AUTH_ERROR, payload: error.response.data });
   });
 };
 
