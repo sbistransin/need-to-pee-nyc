@@ -179,10 +179,10 @@ export const RightMobileTitle = styled.div`
   width: 50%;
   display: flex;
   flex-direciton: column;
-  align-items: center;
+  align-items: flex-start;
   box-sizing: border-box;
   margin-bottom: 3rem;
-  margin-top: -150px;
+  
 
   @media (max-width: 1600px) {
     display: none;
@@ -195,18 +195,22 @@ export const RightMobileTitle = styled.div`
   @media (max-width: 980px) {
     display: flex;
     font-weight: 600;
-    font-size: 6rem;
+    font-size: 4rem;
+    width: 70%;
   }
 
   @media (max-width: 750px) {
     display: flex;
     font-weight: 600;
-    font-size: 5rem;
+    font-size: 3rem;
+    width: 60%;
   }
 
   @media (max-width: 600px) {
     display: flex;
     font-weight: 600;
     font-size: 3rem;
+    margin-top: -100px;
+    width: 50%
   }
 `
