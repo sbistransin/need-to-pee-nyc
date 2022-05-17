@@ -10,10 +10,19 @@ const Nav = () => {
   const authenticated = useSelector(state => state.auth.authenticated);
   const [extendNavbar, setExtendNavbar] = useState(false);
 
+  const handleLinkClick = () => {
+    // close if the nav bar is open
+    if (extendNavbar){
+      setExtendNavbar((curr) => !curr)
+    };
+  };
+
   const handleLogOutClick = () => {
     dispatch(signout(() => {
       navigate('/');
     }));
+
+    handleLinkClick();
   }
 
   const renderLinks = () => {
@@ -21,12 +30,14 @@ const Nav = () => {
       return (
         <>
           <li>
-            <Link to="/">
+            <Link to="/"
+              onClick={handleLinkClick}>
               Home
             </Link>
           </li> 
           <li>
-            <Link to="/preferences">
+            <Link to="/preferences"
+              onClick={handleLinkClick}>
               Manage Settings
             </Link>
           </li>
@@ -44,18 +55,21 @@ const Nav = () => {
       return (
               <>
                 <li>
-                  <Link to="/">
+                  <Link to="/"
+                    onClick={handleLinkClick}>
                     Home
                   </Link>
                 </li> 
                 <li>
-                  <Link to="/signup">
+                  <Link to="/signup"
+                    onClick={handleLinkClick}>
                     Sign Up
                   </Link>
                 </li>
                 <li>
-                  <Link to="/signin">
-                  Sign In
+                  <Link to="/signin"
+                    onClick={handleLinkClick}>
+                    Sign In
                   </Link>
                 </li>
               </>
@@ -92,16 +106,17 @@ const NavBar = styled.div`
   background: #F2F1EA;
   position: fixed;
   width: 100%; 
-  height: ${(props) => (props.extendNavbar ? "100vh" : "70px;")}
+  height: ${(props) => (props.extendNavbar ? "100vh;" : "70px;")}
+  @media (min-width: 700px) {
+    height: 70px;
+  }
 `;
 
 const NavContainer = styled.div`
   width: 100%;
   position: flex;
   flex-direction: row;
-  @media (min-width: 750px) {
-    height: 70px;
-  }
+  
 `;
 
 const NavUl = styled.ul`
@@ -126,7 +141,7 @@ const NavUl = styled.ul`
     text-transform: uppercase;
   }
 
-  @media (max-width: 750px) {
+  @media (max-width: 700px) {
     display: none;
   }
 `;
@@ -167,7 +182,7 @@ const NavbarExtendedContainer = styled.div`
   flex-direction: column;
   align-items: center;
 
-  @media (min-width: 750px) {
+  @media (min-width: 700px) {
     display: none;
   }
 
@@ -184,7 +199,7 @@ const OpenLinksButton = styled.button`
   display: none;
   padding-left: 10px;
 
-  @media (max-width: 750px) {
+  @media (max-width: 700px) {
     display: flex;
   }
 `;
