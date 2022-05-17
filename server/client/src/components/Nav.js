@@ -7,7 +7,7 @@ import styled from 'styled-components';
 const Nav = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const authenticated = useSelector(state => state.auth.authenticated);
+  const { authenticated, name } = useSelector(state => state.auth);
   const [extendNavbar, setExtendNavbar] = useState(false);
 
   const handleLinkClick = () => {
@@ -87,6 +87,7 @@ const Nav = () => {
           {extendNavbar ? <>&#10005;</> : <>&#8801;</>}
         </OpenLinksButton>
         <NavUl>
+          { authenticated && <AuthUser>Hi, {name}</AuthUser>}
           {renderLinks()}
         </NavUl>
       { extendNavbar &&
@@ -116,7 +117,6 @@ const NavContainer = styled.div`
   width: 100%;
   position: flex;
   flex-direction: row;
-  
 `;
 
 const NavUl = styled.ul`
@@ -201,5 +201,17 @@ const OpenLinksButton = styled.button`
 
   @media (max-width: 700px) {
     display: flex;
+  }
+`;
+
+const AuthUser = styled.div`
+  font-family: 'Montserrat', sans-serif;
+  text-transform: uppercase;
+  font-weight: 300;
+  display: flex;
+  justify-content: flex-start;
+
+  @media (max-width: 700px) {
+    display: none;
   }
 `;
