@@ -223,11 +223,11 @@ const Header = styled.header`
   }
   @media (max-width: 1000px) {
     font-size: 1.2rem;
-    margin-top: -5rem;
+    margin-top: 4rem;
   }
   @media (max-width: 500px) {
     font-size: 1.1rem;
-    margin-top: -5rem;
+    margin-top: 5rem;
   }
 `;
 
