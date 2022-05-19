@@ -8,8 +8,6 @@ import logo from "../../images/need2peecrop.png";
 import { Nav, NavButton, NavButtonLink, NavItem, NavLinks, NavContainer, NavLogo, MobileIcon, NavBtn, NavUl, Img, ImgWrap } from "./NavBarElements";
 
 const NavBar = ({toggleSideBar, type}) => {
-  console.log(type);
-  
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { authenticated } = useSelector(state => state.auth);

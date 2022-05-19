@@ -20,6 +20,7 @@ exports.signout = function(req, res) {
 };
 
 exports.authenticateRequest = function (req, res, next) {
+  debugger;
   if (!req.isAuthenticated()) {
     // Denied. Redirect to login
     // how to redirect this on the front end?
@@ -31,6 +32,7 @@ exports.authenticateRequest = function (req, res, next) {
 
 exports.currentUser = async function (req, res) {
   const user = await findOneUserById(req.user);
+  console.log(user);
   // add error handling
   res.send(user);
 };

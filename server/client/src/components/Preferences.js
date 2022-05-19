@@ -34,6 +34,7 @@ const Preferences = () => {
   }
   
   const [preferences, setPreferences] = useState(initialFormState);
+  console.log(preferences);
   
   const { register, handleSubmit, reset, formState: { errors } } = useForm({
     resolver: yupResolver(preferencesSchema),
