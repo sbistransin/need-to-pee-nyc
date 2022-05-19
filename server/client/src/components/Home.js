@@ -1,42 +1,26 @@
-import styled from 'styled-components';
+import { useSelector } from 'react-redux';
+import HeroSection from './HeroSection/indexs';
+import InfoSection from './InfoSection';
+import Services from './Services';
+import { homeObjOne, homeObjThree, homeObjTwo } from './InfoSection/Data.js';
+import Footer from './Footer';
+import Header from './Headers/Header';
 
-const Home = () => { 
+const Home = () => {
+
+  const { authenticated } = useSelector(state => state.auth);
+
   return (
-    <HomeContainer>
-      <Header>NEED TO PEE NYC</Header>
-    </HomeContainer>)
+    <>
+      <Header />
+      <HeroSection />
+      <InfoSection {...homeObjOne} />
+      <InfoSection {...homeObjTwo} />
+      {(authenticated) ? "" : <InfoSection {...homeObjThree} /> }
+      <Services></Services>
+      <Footer />
+    </>
+  )
 }
 
 export default Home;
-
-const HomeContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #F2F1EA;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  width: 100vw;
-  height: 100vh;
-`;
-
-const Header = styled.header`
-  font-family: 'Montserrat', sans-serif; 
-  padding-bottom: 1rem;
-  margin-top: -4rem;
-  font-size: 6.6rem;
-  font-weight: 600;
-  text-align: center;
-  transition: 0.4s;
-  @media (max-width: 1200px) {
-    font-size: 5.5rem;
-  }
-  @media (max-width: 1000px) {
-    font-size: 4.8rem;
-    margin-top: -5rem;
-  }
-  @media (max-width: 500px) {
-    font-size: 4rem;
-    margin-top: -5rem;
-  }
-`;
