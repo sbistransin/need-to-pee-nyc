@@ -62,11 +62,14 @@ exports.signup = async function(req, res, next) {
   bcrypt.hash(password, saltRounds, function(err, hash) {
     // create user 
     pool.query(createNewUser(email, hash, name, phone), (err, results) => {
-      debugger;
       if (err) return err;
       const newUser = results.rows[0]
       sendUserSMS(newUser);
-      res.send({user_id: newUser.user_id})
+      res.send({
+        user_id: newUser.user_id,
+        email: newUser.email,
+        name: newUser.name,
+      })
     })
   });
 };

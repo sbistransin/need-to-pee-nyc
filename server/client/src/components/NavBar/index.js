@@ -169,6 +169,16 @@ const NavBar = ({toggleSideBar, type}) => {
                   </NavLinks>
                 </NavItem> 
                 <NavItem>
+                  <NavLinks to="signup"
+                    smooth={true} 
+                    duration={500} 
+                    spy={true} 
+                    exact='true' 
+                    offset={-70}>
+                    Sign Up
+                  </NavLinks>
+                </NavItem>
+                <NavItem>
                   <NavLinks 
                     to="services"
                     smooth={true} 
@@ -177,16 +187,6 @@ const NavBar = ({toggleSideBar, type}) => {
                     exact='true' 
                     offset={-70}>
                     Services
-                  </NavLinks>
-                </NavItem>
-                <NavItem>
-                  <NavLinks to="signup"
-                    smooth={true} 
-                    duration={500} 
-                    spy={true} 
-                    exact='true' 
-                    offset={-70}>
-                    Sign Up
                   </NavLinks>
                 </NavItem>
               </>

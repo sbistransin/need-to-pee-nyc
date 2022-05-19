@@ -65,8 +65,6 @@ const findOneUserById = async function(id) {
 
 const createNewUser = (email, hash, name, phone) => {
   
-  debugger;
-  
   const query = {
     text: `
     INSERT INTO "nyc_pee_users" (email, password, name, phone)

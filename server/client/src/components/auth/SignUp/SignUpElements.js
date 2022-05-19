@@ -32,7 +32,7 @@ export const LeftSideWrapper = styled.div`
 
 export const RightSideWrapper = styled.div`
   font-weight: 600;
-  font-size: 6.6rem;
+  font-size: 5rem;
   width: 50%;
   display: flex;
   flex-direciton: column;

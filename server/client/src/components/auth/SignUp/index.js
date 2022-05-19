@@ -57,16 +57,6 @@ const SignUp = () => {
           <Form onSubmit={handleSubmit(handleSignUpSubmit)}>
             {signUpAuthError ? <ErrorMsg>{signUpAuthError} </ErrorMsg> : ''}
             <div className='form-group'>
-              <label>Email</label>
-              <Input
-                className='form-control'
-                name='email'
-                {...register("email", {
-                  required: "Required",
-                })}/>
-                {errors.email ? <ErrorMsg>{errors.email.message}</ErrorMsg> : ''}
-            </div>
-            <div className='form-group'>
               <label>Name</label>
               <Input
                 className='form-control'
@@ -75,6 +65,16 @@ const SignUp = () => {
                   required: "Required",
                 })}/>
                 {errors.name ? <ErrorMsg>{errors.name.message}</ErrorMsg> : ''}
+            </div>
+            <div className='form-group'>
+              <label>Email</label>
+              <Input
+                className='form-control'
+                name='email'
+                {...register("email", {
+                  required: "Required",
+                })}/>
+                {errors.email ? <ErrorMsg>{errors.email.message}</ErrorMsg> : ''}
             </div>
             <div className="form-group">
               <label>Password</label>
