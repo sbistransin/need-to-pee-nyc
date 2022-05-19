@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import styled from "styled-components";
+import PreferencesHeader from './Headers/PreferencesHeader';
 
 
 const preferencesSchema = Yup.object().shape({
@@ -88,112 +89,116 @@ const Preferences = () => {
     }));
   };
 
-  return <PreferencesContainer>
-    <Form onSubmit={handleSubmit(handleUpdatePreferences)}>
-      <div>
-        <Header>What kind of restrooms do you prefer?</Header>
-        <div>
-          <div className="form-check form-check-inline ">
-            <Input 
-              className="form-check-input" 
-              type="checkbox"
-              id="ispubliccheckbox"
-              checked={preferences.isPublic}
-              {...register("isPublic", {
-                onChange: () => setPreferences(prev => ({ ...prev,
-                isPublic: !preferences.isPublic})),
-              })}
-            />
-            {errors.isPublic?.message}
-            <label className="lead form-check-label" htmlFor="ispubliccheckbox">Public</label>
+  return (
+    <>
+      <PreferencesHeader />
+      <PreferencesContainer>
+        <Form onSubmit={handleSubmit(handleUpdatePreferences)}>
+          <div>
+            <Header>What kind of restrooms do you prefer?</Header>
+            <div>
+              <div className="form-check form-check-inline ">
+                <Input 
+                  className="form-check-input" 
+                  type="checkbox"
+                  id="ispubliccheckbox"
+                  checked={preferences.isPublic}
+                  {...register("isPublic", {
+                    onChange: () => setPreferences(prev => ({ ...prev,
+                    isPublic: !preferences.isPublic})),
+                  })}
+                />
+                {errors.isPublic?.message}
+                <label className="lead form-check-label" htmlFor="ispubliccheckbox">Public</label>
+              </div>
+              <div className="form-check form-check-inline ">
+                <Input 
+                  className="form-check-input" 
+                  type="checkbox"
+                  id="iscoffeecheckbox"
+                  checked={preferences.isCoffee}
+                  {...register("isCoffee", {
+                    onChange: () => setPreferences(prev => ({ ...prev,
+                    isCoffee: !preferences.isCoffee})),
+                  })}
+                />
+                {errors.isCoffee?.message}
+                <label className="lead form-check-label" htmlFor="iscoffeecheckbox">Coffee Shop</label>
+              </div>
+              <div className="form-check form-check-inline ">
+                <Input 
+                  className="form-check-input"
+                  type="checkbox" 
+                  id="isfastfoodcheckbox"
+                  checked={preferences.isFastFood}
+                  {...register("isFastFood", {
+                    onChange: () => setPreferences(prev => ({ ...prev,
+                    isFastFood: !preferences.isFastFood})),
+                  })}
+                />
+                {errors.isFastFood?.message}
+                <label className="lead form-check-label" htmlFor="isfastfoodcheckbox">Fast Food</label>
+              </div>
+              <div className="form-check form-check-inline ">
+                <Input 
+                  className="form-check-input" 
+                  type="checkbox" 
+                  id="ishotelcheckbox" 
+                  checked={preferences.isHotel}
+                  {...register("isHotel", {
+                    onChange: () => setPreferences(prev => ({ ...prev,
+                    isHotel: !preferences.isHotel})),
+                  })}
+                />
+                {errors.isHotel?.message}
+                <label className="lead form-check-label" htmlFor="ishotelcheckbox">Hotel</label>
+              </div>
+              <div className="form-check form-check-inline ">
+                <Input 
+                  className="form-check-input" 
+                  type="checkbox" 
+                  id="isbookcheckbox"
+                  checked={preferences.isBook}
+                  {...register("isBook", {
+                    onChange: () => setPreferences(prev => ({ ...prev,
+                    isBook: !preferences.isBook})),
+                  })}
+                />
+                {errors.isBook?.message}
+                <label className="lead form-check-label" htmlFor="isbookcheckbox">Book Store</label>
+              </div>
+              <div className="form-check form-check-inline ">
+                <Input 
+                  className="form-check-input" 
+                  type="checkbox" 
+                  id="isothercheckbox" 
+                  checked={preferences.isOther}
+                  {...register("isOther", {
+                    onChange: () => setPreferences(prev => ({ ...prev,
+                    isOther: !preferences.isOther})),
+                  })}
+                />
+                {errors.isOther?.message}
+                <label className="lead form-check-label" htmlFor="isothercheckbox">Other</label>
+              </div>
+            </div>
           </div>
-          <div className="form-check form-check-inline ">
-            <Input 
-              className="form-check-input" 
-              type="checkbox"
-              id="iscoffeecheckbox"
-              checked={preferences.isCoffee}
-              {...register("isCoffee", {
-                onChange: () => setPreferences(prev => ({ ...prev,
-                isCoffee: !preferences.isCoffee})),
-              })}
-            />
-            {errors.isCoffee?.message}
-            <label className="lead form-check-label" htmlFor="iscoffeecheckbox">Coffee Shop</label>
-          </div>
-          <div className="form-check form-check-inline ">
-            <Input 
-              className="form-check-input"
-              type="checkbox" 
-              id="isfastfoodcheckbox"
-              checked={preferences.isFastFood}
-              {...register("isFastFood", {
-                onChange: () => setPreferences(prev => ({ ...prev,
-                isFastFood: !preferences.isFastFood})),
-              })}
-            />
-            {errors.isFastFood?.message}
-            <label className="lead form-check-label" htmlFor="isfastfoodcheckbox">Fast Food</label>
-          </div>
-          <div className="form-check form-check-inline ">
-            <Input 
-              className="form-check-input" 
-              type="checkbox" 
-              id="ishotelcheckbox" 
-              checked={preferences.isHotel}
-              {...register("isHotel", {
-                onChange: () => setPreferences(prev => ({ ...prev,
-                isHotel: !preferences.isHotel})),
-              })}
-            />
-            {errors.isHotel?.message}
-            <label className="lead form-check-label" htmlFor="ishotelcheckbox">Hotel</label>
-          </div>
-          <div className="form-check form-check-inline ">
-            <Input 
-              className="form-check-input" 
-              type="checkbox" 
-              id="isbookcheckbox"
-              checked={preferences.isBook}
-              {...register("isBook", {
-                onChange: () => setPreferences(prev => ({ ...prev,
-                isBook: !preferences.isBook})),
-              })}
-            />
-            {errors.isBook?.message}
-            <label className="lead form-check-label" htmlFor="isbookcheckbox">Book Store</label>
-          </div>
-          <div className="form-check form-check-inline ">
-            <Input 
-              className="form-check-input" 
-              type="checkbox" 
-              id="isothercheckbox" 
-              checked={preferences.isOther}
-              {...register("isOther", {
-                onChange: () => setPreferences(prev => ({ ...prev,
-                isOther: !preferences.isOther})),
-              })}
-            />
-            {errors.isOther?.message}
-            <label className="lead form-check-label" htmlFor="isothercheckbox">Other</label>
-          </div>
-        </div>
-      </div>
-      <PrefBUtton className="btn btn-primary" type="submit">Update Settings</PrefBUtton>
-      <StyledContainer
-        position="bottom-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover/>
-      <div>
-      </div>
-    </Form>
-  </PreferencesContainer>
+          <PrefBUtton className="btn btn-primary" type="submit">Update Settings</PrefBUtton>
+          <StyledContainer
+            position="bottom-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover/>
+        </Form>
+      </PreferencesContainer>
+    </>
+  ) 
+  
 }
 
 export default Preferences;
