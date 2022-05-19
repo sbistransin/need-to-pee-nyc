@@ -20,6 +20,7 @@ exports.signout = function(req, res) {
 };
 
 exports.authenticateRequest = function (req, res, next) {
+  console.log(req.user);
   debugger;
   if (!req.isAuthenticated()) {
     // Denied. Redirect to login
