@@ -1,9 +1,6 @@
 import React from 'react';
-import { animateScroll as scroll } from "react-scroll";
+
 import { InfoContainer, InfoWrapper, InfoRow, Column1, Column2, TextWrapper, TopLine, Heading, Subtitle, BtnWrap, ImgWrap, Img, ButtonLink, Button } from './InfoSectionElements';
-
-
-
 
 const InfoSection = ({lightBg, id, imgStart, topLine, lightText, headline, darkText, description, buttonLabel, img, alt,
 buttonDestination }) => {

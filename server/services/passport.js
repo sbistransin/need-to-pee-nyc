@@ -12,29 +12,26 @@ const localLogin = new LocalStrategy(localOptions, function(email, password, don
       }
       
       if (results.rows.length === 0) {
-        //return res.send({success: false, message: "No user with that email foud."})
         return done(null, false, { message: 'No user with that email found.'});
       }
 
       // check for password
       // need to add decryption i think
       bcrypt.compare(password, results.rows[0].password, function(err, result) {
-        // result == true
         if (result) {
-          done(null, results.rows[0].user_id);
+          done(null, {
+            user_id: results.rows[0].user_id,
+            email: results.rows[0].email,
+            name: results.rows[0].name,
+          });
         } else {
           done(null, false, { message: 'Incorrect password.' });
         }
       });
-
-      //const found = results.rows.find((u) => {u.password === password});
-      // if (found) {
-      //   done(null, found.user_id);
-      // } else {
-      //   done(null, false, { message: 'Incorrect password.' });
-      // }
     });
 
 });
+
+// implement local sign up
 
 passport.use('local', localLogin);
