@@ -23,13 +23,12 @@ module.exports = function(app) {
   app.get('/logout', Authentication.signout);
   app.post('/signup', Authentication.signup);
   app.get('/current-user', Authentication.authenticateRequest, Authentication.currentUser);
-  // PUT /current-user
   app.put('/current-user', Authentication.authenticateRequest, UserPreferences.updateUserPreferences)
 
-  // thinking these routes won't be "protected" but they won't work if you aren't a user?
+  // twilio routes
   app.post('/sms', Sms.receiveSMSFromUser);
   app.get('/sms', Sms.sendUserSMS);
 
-  //app.get('/restrooms', getRestrooms);
+  // web-scrape / admin route
   app.get('/database/populate-restroom-table', populateRestrooms);
 };

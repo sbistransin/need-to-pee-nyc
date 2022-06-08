@@ -1,7 +1,6 @@
 const axios = require('axios');
 const turf = require('@turf/turf');
 
-// do we need this here
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
@@ -37,10 +36,12 @@ const receiveSMSFromUser = async (req, res) => {
 
   } else {
     const name = existingUser.name;
+    // gets all restrooms within user's preferences
     const results = await getUserRestrooms(existingUser);
     if (results.length === 0) {
       twiml.message(`Sorry no restrooms returned for your preferences. Please update at "https://need-to-pee-nyc.herokuapp.com/preferences"`);
     } else {
+      // getting coords sent by user
       const coordinates = await getCoordinates(address);
     
       const closestRestrooms = calculateClosestRestroom(results, coordinates);
@@ -83,7 +84,7 @@ const getCoordinates = async function(query) {
   });
 };
 
-// uses Haversine formula
+// Haversine formula
 const calculateClosestRestroom = function(restrooms, coordinates) {
   
   // need to handle no restroom recommendation
