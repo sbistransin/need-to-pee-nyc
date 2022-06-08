@@ -20,13 +20,17 @@ exports.signout = function(req, res) {
 
 exports.authenticateRequest = function (req, res, next) {
   if (!req.isAuthenticated()) {
-    console.log("DEEEnied");
+    res.send(401, "Not logged in");
   } else {
     next();
   }
 };
 
 exports.currentUser = async function (req, res) {
+  // if not auth
+  if (!req.user) {
+    res.send(401, "Not logged in");
+  }
   const user = await findOneUserById(req.user.user_id);
   // add error handling
   res.send(user);
@@ -63,11 +67,6 @@ exports.signup = async function(req, res, next) {
       if (err) return next(err);
       const newUser = results.rows[0]
       sendUserSMS(newUser);
-      // res.send({
-      //   user_id: newUser.user_id,
-      //   email: newUser.email,
-      //   name: newUser.name,
-      // })
       req.login(newUser, function(err) {
         if (err) { return next(err) }
         res.send({

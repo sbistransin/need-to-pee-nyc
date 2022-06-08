@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { AUTH_USER, SIGN_IN_AUTH_ERROR, SIGN_UP_AUTH_ERROR } from './types';
+import { AUTH_USER, SIGN_IN_AUTH_ERROR, SIGN_UP_AUTH_ERROR, AUTH_ERROR } from './types';
 
 export const signin = (formProps, callback) => dispatch => {
   axios.post(
@@ -49,7 +49,7 @@ export const fetchCurrentUser = () => dispatch => {
     dispatch({ type: AUTH_USER, payload: response.data})
   })
   .catch(function (error) {
-    throw error;
+    dispatch({ type: AUTH_ERROR, payload: error.response.data });
   })
 };
 

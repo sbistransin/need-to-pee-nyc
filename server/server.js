@@ -24,7 +24,7 @@ app.use(bodyParser.json());
 
 app.use(
   cookieSession({
-    name: "session",
+    name: "session-nyc",
     keys: ["helloworld"],
 
     // Cookie Options
