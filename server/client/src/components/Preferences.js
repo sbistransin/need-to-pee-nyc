@@ -25,12 +25,12 @@ const Preferences = () => {
   
   // for form submit
   const initialFormState = {
-    isPublic: false,
-    isCoffee: false,
-    isFastFood: false,
-    isHotel: false,
-    isBook: false,
-    isOther: false
+    isPublic: true,
+    isCoffee: true,
+    isFastFood: true,
+    isHotel: true,
+    isBook: true,
+    isOther: true
   }
   
   const [preferences, setPreferences] = useState(initialFormState);
@@ -38,12 +38,12 @@ const Preferences = () => {
   const { register, handleSubmit, reset, formState: { errors } } = useForm({
     resolver: yupResolver(preferencesSchema),
     defaultValues: {
-      isPublic: false,
-      isCoffee: false,
-      isFastFood: false,
-      isHotel: false,
-      isBook: false,
-      isOther: false
+      isPublic: true,
+      isCoffee: true,
+      isFastFood: true,
+      isHotel: true,
+      isBook: true,
+      isOther: true
     }
   });
 
