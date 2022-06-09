@@ -22,29 +22,12 @@ const preferencesSchema = Yup.object().shape({
 });
 
 const Preferences = () => { 
+    
+  const [preferences, setPreferences] = useState(undefined);
+  const [isLoading, setLoading] = useState(true);
   
-  // for form submit
-  const initialFormState = {
-    isPublic: true,
-    isCoffee: true,
-    isFastFood: true,
-    isHotel: true,
-    isBook: true,
-    isOther: true
-  }
-  
-  const [preferences, setPreferences] = useState(initialFormState);
-  
-  const { register, handleSubmit, reset, formState: { errors } } = useForm({
+  const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(preferencesSchema),
-    defaultValues: {
-      isPublic: true,
-      isCoffee: true,
-      isFastFood: true,
-      isHotel: true,
-      isBook: true,
-      isOther: true
-    }
   });
 
   const dispatch = useDispatch();
@@ -60,19 +43,17 @@ const Preferences = () => {
          isBook: response.data.is_book,
          isOther: response.data.is_other
       }))
+      setLoading(false);
     })
     .catch(function (error) {
       throw error;
     })
   };
 
+  // load settings from db
   useEffect(() => {
     fetchPreferences();
   }, []);
-
-  useEffect(() => {
-    reset(preferences);
-  }, [preferences]);
 
   const handleUpdatePreferences = (data) => {
     dispatch(updateUser(preferences, () => {
@@ -88,6 +69,16 @@ const Preferences = () => {
         });
     }));
   };
+
+  if (isLoading) {
+    return (
+      <>
+        <PreferencesHeader />
+        <PreferencesContainer />
+      </>
+      
+    )
+  }
 
   return (
     <>
