@@ -26,8 +26,6 @@ app.use(
   cookieSession({
     name: "session-nyc",
     keys: ["helloworld"],
-
-    // Cookie Options
     maxAge: 24 * 60 * 60 * 1000, // 24 hours
   })
 );
