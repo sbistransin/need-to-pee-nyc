@@ -1,5 +1,3 @@
-import Cookies from "js-cookie";
-
 import { 
   AUTH_USER, 
   SIGN_IN_AUTH_ERROR,  
